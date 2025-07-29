@@ -1,5 +1,5 @@
-# Created by https://www.toptal.com/developers/gitignore/api/windows,macos,eclipse,java
-# Edit at https://www.toptal.com/developers/gitignore?templates=windows,macos,eclipse,java
+# Created by https://www.toptal.com/developers/gitignore/api/windows,macos,eclipse,java,maven
+# Edit at https://www.toptal.com/developers/gitignore?templates=windows,macos,eclipse,java,maven
 
 ### Eclipse ###
 .metadata
@@ -62,6 +62,9 @@ local.properties
 # Uncomment this line if you wish to ignore the project description file.
 # Typically, this file would be tracked if it contains build/dependency configurations:
 #.project
+
+### Spring ###
+application.properties
 
 ### Eclipse Patch ###
 # Spring Boot Tooling
@@ -126,6 +129,25 @@ Temporary Items
 # iCloud generated files
 *.icloud
 
+### Maven ###
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+# https://github.com/takari/maven-wrapper#usage-without-binary-jar
+.mvn/wrapper/maven-wrapper.jar
+
+# Eclipse m2e generated files
+# Eclipse Core
+.project
+# JDT-specific (Eclipse Java Development Tools)
+.classpath
+
 ### Windows ###
 # Windows thumbnail cache files
 Thumbs.db
@@ -152,4 +174,4 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# End of https://www.toptal.com/developers/gitignore/api/windows,macos,eclipse,java
+# End of https://www.toptal.com/developers/gitignore/api/windows,macos,eclipse,java,maven
