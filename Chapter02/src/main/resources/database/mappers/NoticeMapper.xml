@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace의 이름은 사용하려는 DAO의 풀패키지명과 동일하게 작성 -->
+<mapper namespace="com.coma.study.board.notice.NoticeDAO">
+	<!-- ID는 DAO의 메서드명과 동일하게 작성 -->
+	<insert id="insertBoard" parameterType="NoticeVO">
+		INSERT INTO NOTICE (board_title, board_content, board_writer)
+		VALUE (#{boardTitle}, #{boardContent}, #{boardWriter})
+	</insert>
+	
+	<update id="updateBoard" parameterType="NoticeVO">
+		UPDATE NOTICE
+		SET 
+				board_title = #{boardTitle}
+			, board_content = #{boardContent}
+		<where>
+			board_num = #{boardNum}
+		</where>
+	</update>
+	
+	<delete id="deleteBoard" parameterType="Long">
+		DELETE FROM NOTICE
+		<where>
+			board_num = #{boardNum}
+		</where>
+	</delete>
+</mapper>
