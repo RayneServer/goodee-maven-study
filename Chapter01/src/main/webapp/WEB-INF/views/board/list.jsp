@@ -9,6 +9,7 @@
 
 <body>
 	<h1>Board List</h1>
+	<a href="./detail?num=3&kind=test">Detail</a>
 </body>
 
 </html>
