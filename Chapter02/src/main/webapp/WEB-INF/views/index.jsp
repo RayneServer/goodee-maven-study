@@ -18,6 +18,7 @@
 				<c:import url="/WEB-INF/views/include/topbar.jsp"></c:import>
 				<div class="container-fluid">
 					<!-- Contents Area -->
+					<h1>Index</h1>
 				</div>
 			</div>
 			

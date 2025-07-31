@@ -11,6 +11,11 @@ public class NoticeController {
 	@Autowired
 	private NoticeDAO noticeDAO;
 	
+	@GetMapping("list")
+	public String noticeList() throws Exception {
+		return "notice/list";
+	}
+	
 	@GetMapping("add")
 	public void insertNotice() throws Exception {
 		NoticeVO noticeVO = new NoticeVO();

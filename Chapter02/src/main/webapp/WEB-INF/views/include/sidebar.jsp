@@ -27,12 +27,11 @@
 		<li class="nav-item">
 		  <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
 		  	<i class="fas fa-fw fa-cog"></i>
-		    <span>Components</span>
+		    <span>BOARD</span>
 		  </a>
 	    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
-	        <h6 class="collapse-header">Custom Components:</h6>
-	        <a class="collapse-item" href="buttons.html">Buttons</a>
+	        <a class="collapse-item" href="/notice/list">Notice</a>
 	        <a class="collapse-item" href="cards.html">Cards</a>
         </div>
 	    </div>
@@ -62,12 +61,12 @@
 		<div class="sidebar-heading">Addons</div>
 		
 		<!-- Nav Item - Pages Collapse Menu -->
-		<li class="nav-item active">
+		<li class="nav-item">
 	    <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
 	      <i class="fas fa-fw fa-folder"></i>
 	      <span>Pages</span>
 	    </a>
-	    <div id="collapsePages" class="collapse show" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+	    <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
 	      <div class="bg-white py-2 collapse-inner rounded">
 	        <h6 class="collapse-header">Login Screens:</h6>
 	        <a class="collapse-item" href="login.html">Login</a>
@@ -76,7 +75,7 @@
 	        <div class="collapse-divider"></div>
 	        <h6 class="collapse-header">Other Pages:</h6>
 	        <a class="collapse-item" href="404.html">404 Page</a>
-	        <a class="collapse-item active" href="blank.html">Blank Page</a>
+	        <a class="collapse-item" href="blank.html">Blank Page</a>
 	      </div>
 	    </div>
 		</li>

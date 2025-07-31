@@ -5,7 +5,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>Index Page</title>
+	<title>Notice List</title>
 	
 	<c:import url="/WEB-INF/views/include/head_css.jsp"></c:import>
 </head>
@@ -18,6 +18,7 @@
 				<c:import url="/WEB-INF/views/include/topbar.jsp"></c:import>
 				<div class="container-fluid">
 					<!-- Contents Area -->
+					<h1>Notice List</h1>
 				</div>
 			</div>
 			
