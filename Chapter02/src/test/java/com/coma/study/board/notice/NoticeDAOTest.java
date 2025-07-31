@@ -6,17 +6,33 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.coma.study.board.BoardVO;
+
+import lombok.extern.slf4j.Slf4j;
+
 @SpringBootTest
+@Slf4j
 class NoticeDAOTest {
 	@Autowired
 	private NoticeDAO noticeDAO;
+	
+	@Test
+	void selectBoardDetailTest() throws Exception {
+		NoticeVO noticeVO = new NoticeVO();
+		noticeVO.setBoardNum(2L);
+		
+		BoardVO result = noticeDAO.selectBoardDetail(noticeVO);
+		log.info("result: {}", result);
+		
+		assertNotNull(result);
+	}
 
 	@Test
 	void insertBoardTest() throws Exception {
 		NoticeVO noticeVO = new NoticeVO();
-		noticeVO.setBoardTitle("title8");
-		noticeVO.setBoardContent("content8");
-		noticeVO.setBoardWriter("writer8");
+		noticeVO.setBoardTitle("title12");
+		noticeVO.setBoardContent("content12");
+		noticeVO.setBoardWriter("writer12");
 	 
 		int result = noticeDAO.insertBoard(noticeVO);
 	 

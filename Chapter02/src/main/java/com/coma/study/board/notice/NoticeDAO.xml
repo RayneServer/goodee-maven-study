@@ -5,6 +5,15 @@
 <!-- namespace의 이름은 사용하려는 DAO의 풀패키지명과 동일하게 작성 -->
 <mapper namespace="com.coma.study.board.notice.NoticeDAO">
 	<!-- ID는 DAO의 메서드명과 동일하게 작성 -->
+	<select id="selectBoardDetail" parameterType="NoticeVO" resultType="NoticeVO">
+		SELECT 
+				*
+		FROM NOTICE
+		<where>
+			board_num = #{boardNum}
+		</where>
+	</select>
+	
 	<insert id="insertBoard" parameterType="NoticeVO">
 		INSERT INTO NOTICE (board_title, board_content, board_writer)
 		VALUE (#{boardTitle}, #{boardContent}, #{boardWriter})
