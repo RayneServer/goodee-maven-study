@@ -22,11 +22,11 @@
 						<table class="table align-middle text-center">
 							<thead>
 								<tr>
-									<th scope="col">번호</th>
-									<th scope="col">제목</th>
-									<th scope="col">작성자</th>
-									<th scope="col">작성일</th>
-									<th scope="col">조회수</th>
+									<th scope="col" class="col-1">번호</th>
+									<th scope="col" class="col-5">제목</th>
+									<th scope="col" class="col-2">작성자</th>
+									<th scope="col" class="col-3">작성일</th>
+									<th scope="col" class="col-1">조회수</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -35,12 +35,16 @@
 										<td>${ notice.boardNum }</td>
 										<td><a href="./detail?boardNum=${ notice.boardNum }">${ notice.boardTitle }</a></td>
 										<td>${ notice.boardWriter }</td>
-										<td>${ notice.boardDate }</td>
+										<td>${ notice.boardDateToString }</td>
 										<td>${ notice.boardHit }</td>
 									</tr>
 								</c:forEach>
 							</tbody>
 						</table>
+						
+						<div class="d-flex w-100 justify-content-end align-items-center">
+							<a href="./add" class="btn btn-primary">Add</a>
+						</div>
 					</div>
 				</div>
 			</div>
