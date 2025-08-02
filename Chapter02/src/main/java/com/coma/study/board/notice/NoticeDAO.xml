@@ -5,6 +5,17 @@
 <!-- namespace의 이름은 사용하려는 DAO의 풀패키지명과 동일하게 작성 -->
 <mapper namespace="com.coma.study.board.notice.NoticeDAO">
 	<!-- ID는 DAO의 메서드명과 동일하게 작성 -->
+	<select id="selectBoardList" resultType="NoticeVO">
+		SELECT
+				board_num
+			, board_title
+			, board_writer
+			, board_date
+			, board_hit
+		FROM NOTICE
+		ORDER BY board_num DESC
+	</select>
+	
 	<select id="selectBoardDetail" parameterType="NoticeVO" resultType="NoticeVO">
 		SELECT 
 				*
