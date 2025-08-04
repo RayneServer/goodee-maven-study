@@ -17,4 +17,16 @@ public class ProductService {
 	public ProductDTO getProductDetail(Long productNum) throws Exception {
 		return productDAO.selectProductDetail(productNum);
 	}
+
+	public int addProduct(ProductDTO productDTO) throws Exception {
+		return productDAO.insertProduct(productDTO);
+	}
+
+	public int updateProduct(ProductDTO productDTO) throws Exception {
+		return productDAO.updateProduct(productDTO);
+	}
+
+	public int deleteProduct(Long productNum) throws Exception {
+		return productDAO.deleteProduct(productNum);
+	}
 }

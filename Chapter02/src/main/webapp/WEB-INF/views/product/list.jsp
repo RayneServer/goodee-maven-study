@@ -25,9 +25,9 @@
 						<table class="table text-center">
 							<thead>
 								<tr">
-									<th class="col-1">상품번호</th>
+									<th class="col-2">상품번호</th>
 									<th class="col-5">상품명</th>
-									<th class="col-2">이율</th>
+									<th class="col-1">이율</th>
 									<th class="col-4">마감일</th>
 								</tr>
 							</thead>

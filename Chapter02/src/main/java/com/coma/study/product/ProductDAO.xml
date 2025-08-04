@@ -33,4 +33,29 @@
 			P.product_num = #{productNum}
 		</where>
 	</select>
+	
+	<insert id="insertProduct" parameterType="ProductDTO">
+		INSERT INTO product (product_kind_num, product_name, product_content, product_date, product_rate)
+		VALUES (#{productKindNum}, #{productName}, #{productContent}, #{productDate}, #{productRate})
+	</insert>
+	
+	<update id="updateProduct" parameterType="ProductDTO">
+		UPDATE product
+		SET
+				product_name = #{productName}
+			, product_kind_num = #{productKindNum}
+			, product_date = #{productDate}
+			, product_rate = #{productRate}
+			, product_content = #{productContent}
+		<where>
+			product_num = #{productNum}
+		</where>
+	</update>
+	
+	<delete id="deleteProduct" parameterType="Long">
+		DELETE FROM product
+		<where>
+			product_num = #{productNum}
+		</where>
+	</delete>
 </mapper>

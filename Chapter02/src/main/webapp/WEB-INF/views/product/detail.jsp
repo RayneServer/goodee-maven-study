@@ -32,11 +32,11 @@
 						
 						<div class="d-flex mt-3 justify-content-end align-items-center">
 							<form id="frm">
-								<input type="hidden" name="boardNum" value="${ product.productNum }" />
+								<input type="hidden" name="productNum" value="${ product.productNum }" />
 							</form>
 							
-							<button class="btn btn-success mr-3 action" data-kind="u">Update</button>
-							<button class="btn btn-danger action" data-kind="d">Delete</button>
+							<button class="btn btn-success mr-3 action" data-kind="u">상품수정</button>
+							<button class="btn btn-danger action" data-kind="d">상품삭제</button>
 						</div>
 					</div>
 				</div>
@@ -48,6 +48,7 @@
 	</div>
 	
 	<c:import url="/WEB-INF/views/include/tail.jsp"></c:import>
+	<script src="/js/product/product-detail.js"></script>
 </body>
 
 </html>

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -37,8 +38,56 @@ public class ProductController {
 		return "product/product_form";
 	}
 	
+	@PostMapping("add")
+	public String productAdd(ProductDTO productDTO, Model model) throws Exception {
+		int result = productService.addProduct(productDTO);
+		
+		model.addAttribute("resultMsg", "상품 등록에 실패했습니다.");
+		model.addAttribute("url", "list");
+		
+		if (result > 0) {
+			model.addAttribute("resultMsg", "상품 등록에 성공했습니다.");
+		}
+		
+		return "commons/result";
+	}
+	
 	@GetMapping("update")
-	public String productUpdate() throws Exception {
+	public String productUpdate(Long productNum, Model model) throws Exception {
+		ProductDTO product = productService.getProductDetail(productNum);
+		
+		if (product != null) {
+			model.addAttribute("product", product);
+		}
+		
 		return "product/product_form";
+	}
+	
+	@PostMapping("update")
+	public String productUpdate(ProductDTO productDTO, Model model) throws Exception {
+		int result = productService.updateProduct(productDTO);
+		
+		model.addAttribute("resultMsg", "상품 수정에 실패했습니다.");
+		model.addAttribute("url", "detail?productNum=" + productDTO.getProductNum());
+		
+		if (result > 0) {
+			model.addAttribute("resultMsg", "상품 수정에 성공했습니다.");
+		}
+		
+		return "commons/result";
+	}
+	
+	@PostMapping("delete")
+	public String productDelete(Long productNum, Model model) throws Exception {
+		int result = productService.deleteProduct(productNum);
+		
+		model.addAttribute("resultMsg", "상품 삭제에 실패했습니다.");
+		model.addAttribute("url", "list");
+		
+		if (result > 0) {
+			model.addAttribute("resultMsg", "상품 삭제에 성공했습니다.");
+		}
+		
+		return "commons/result";
 	}
 }
