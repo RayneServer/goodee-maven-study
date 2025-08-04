@@ -1,6 +1,6 @@
 package com.coma.study.product;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 import lombok.Getter;
@@ -15,7 +15,7 @@ public class ProductDTO {
 	private Long productKindNum;
 	private String productName;
 	private String productContent;
-	private LocalDateTime productDate;
+	private LocalDate productDate;
 	private Double productRate;
 	
 	// join with product_kind (1:1)
@@ -24,7 +24,7 @@ public class ProductDTO {
 	// productDate Formatter
 	private String productDateToString;
 	
-	public void setProductDate(LocalDateTime productDate) {
+	public void setProductDate(LocalDate productDate) {
 		this.productDate = productDate;
 		setProductDateToString(productDate.format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일")));
 	}

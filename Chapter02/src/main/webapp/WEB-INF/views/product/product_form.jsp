@@ -42,7 +42,7 @@
 							<div class="row mt-4">
 								<div class="col-6">
 									<label for="productDate" class="form-label">마감기한</label>
-									<input type="datetime-local" class="form-control" id="productDate" name="productDate" value="${ product.productDate }" />
+									<input type="date" class="form-control" id="productDate" name="productDate" value="${ product.productDate }" />
 								</div>
 								<div class="col-6">
 									<label for="productRate" class="form-label">상품이율</label>
