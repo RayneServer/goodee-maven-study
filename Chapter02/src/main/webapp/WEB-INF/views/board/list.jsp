@@ -5,7 +5,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>Notice List</title>
+	<title>Board List</title>
 	
 	<c:import url="/WEB-INF/views/include/head_css.jsp"></c:import>
 </head>
@@ -18,6 +18,9 @@
 				<c:import url="/WEB-INF/views/include/topbar.jsp"></c:import>
 				<div class="container-fluid">
 					<!-- Contents Area -->
+					<div class="width-100 mb-5 d-flex justify-content-center align-items-center">
+						<h1>${ requestScope.boardName }</h1>
+					</div>
 					<div class="row col-8 offset-2">
 						<table class="table align-middle text-center">
 							<thead>
@@ -30,13 +33,23 @@
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach var="notice" items="${ requestScope.noticeList }">
+								<c:forEach var="board" items="${ requestScope.boardList }">
 									<tr>
-										<td>${ notice.boardNum }</td>
-										<td><a href="./detail?boardNum=${ notice.boardNum }">${ notice.boardTitle }</a></td>
-										<td>${ notice.boardWriter }</td>
-										<td>${ notice.boardDateToString }</td>
-										<td>${ notice.boardHit }</td>
+										<td>${ board.boardNum }</td>
+										<td class="text-left">
+											<a href="./detail?boardNum=${ board.boardNum }">
+												<c:catch>
+													<c:forEach begin="1" end="${ board.boardDepth }" varStatus="index">
+														<c:if test="${ not index.last }">&nbsp;&nbsp;</c:if>
+														<c:if test="${ index.last }">ㄴ</c:if>
+													</c:forEach>
+												</c:catch>
+												${ board.boardTitle }
+											</a>
+										</td>
+										<td>${ board.boardWriter }</td>
+										<td>${ board.boardDateToString }</td>
+										<td>${ board.boardHit }</td>
 									</tr>
 								</c:forEach>
 							</tbody>

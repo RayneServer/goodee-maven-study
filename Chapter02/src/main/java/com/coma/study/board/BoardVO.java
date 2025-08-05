@@ -22,6 +22,6 @@ public class BoardVO {
 	
 	public void setBoardDate(LocalDateTime boardDate) {
 		this.boardDate = boardDate;
-		setBoardDateToString(boardDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		setBoardDateToString(boardDate.format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일")));
 	}
 }

@@ -3,9 +3,11 @@ package com.coma.study.board.notice;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -17,13 +19,21 @@ public class NoticeController {
 	@Autowired
 	private NoticeService noticeService;
 	
+	@Value("${board.notice}")
+	private String name;
+	
+	@ModelAttribute("boardName")
+	public String getBoardName() {
+		return name;
+	}
+	
 	@GetMapping("list")
 	public String noticeList(Model model) throws Exception {
 		// model: request와 비슷한 생명주기를 가진 객체 => 스프링에서 데이터 전송 시 사용
 		List<BoardVO> noticeList = noticeService.selectBoardList();
-		model.addAttribute("noticeList", noticeList);
+		model.addAttribute("boardList", noticeList);
 		
-		return "notice/list";
+		return "board/list";
 	}
 	
 	@GetMapping("detail")
@@ -32,14 +42,14 @@ public class NoticeController {
 		noticeVO.setBoardNum(boardNum);
 		
 		BoardVO notice = noticeService.selectBoardDetail(noticeVO);
-		model.addAttribute("notice", notice);
+		model.addAttribute("board", notice);
 		
-		return "notice/detail";
+		return "board/detail";
 	}
 	
 	@GetMapping("add")
 	public String noticeAdd() throws Exception {
-		return "notice/add";
+		return "board/add";
 	}
 	
 	@PostMapping("add")
@@ -55,9 +65,9 @@ public class NoticeController {
 		noticeVO.setBoardNum(boardNum);
 		
 		BoardVO notice = noticeService.selectBoardDetail(noticeVO);
-		model.addAttribute("notice", notice);
+		model.addAttribute("board", notice);
 		
-		return "notice/add";
+		return "board/add";
 	}
 	
 	@PostMapping("update")

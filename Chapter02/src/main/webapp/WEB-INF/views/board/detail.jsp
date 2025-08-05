@@ -18,25 +18,31 @@
 				<c:import url="/WEB-INF/views/include/topbar.jsp"></c:import>
 				<div class="container-fluid">
 					<!-- Contents Area -->
+					<div class="width-100 mb-5 d-flex justify-content-center align-items-center">
+						<h1>${ requestScope.boardName }</h1>
+					</div>
 					<div class="col-8 offset-2">
 						<div class="card shadow">
 							<div class="card-header d-flex justify-content-between align-items-center py-3">
-								<h4 class="m-0 font-weight-bold text-primary">${ notice.boardTitle }</h4>
-								<h6 class="m-0">${ notice.boardDateToString }</h6>
+								<h4 class="m-0 font-weight-bold text-primary">${ board.boardTitle }</h4>
+								<h6 class="m-0">${ board.boardDateToString }</h6>
 							</div>
 							<div class="card-body">
-								<h6 class="mb-4 text-right">작성자: ${ notice.boardWriter } | 조회수: ${ notice.boardHit }</h6>
-								<p>${ notice.boardContent }</p>
+								<h6 class="mb-4 text-right">작성자: ${ board.boardWriter } | 조회수: ${ board.boardHit }</h6>
+								<p>${ board.boardContent }</p>
 							</div>
 						</div>
 						
 						<div class="d-flex mt-3 justify-content-end align-items-center">
 							<form id="frm">
-								<input type="hidden" name="boardNum" value="${ notice.boardNum }" />
+								<input type="hidden" name="boardNum" value="${ board.boardNum }" />
 							</form>
 							
-							<button class="btn btn-success mr-3 action" data-kind="u">Update</button>
-							<button class="btn btn-danger action" data-kind="d">Delete</button>
+							<c:if test="${ requestScope.boardName ne 'Notice' }">
+								<button class="btn btn-primary action" data-kind="r">Reply</button>
+							</c:if>
+							<button class="btn btn-success ml-3 action" data-kind="u">Update</button>
+							<button class="btn btn-danger ml-3 action" data-kind="d">Delete</button>
 						</div>
 					</div>
 				</div>

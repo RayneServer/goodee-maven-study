@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/product/*")
@@ -39,17 +40,20 @@ public class ProductController {
 	}
 	
 	@PostMapping("add")
-	public String productAdd(ProductDTO productDTO, Model model) throws Exception {
+	public ModelAndView productAdd(ProductDTO productDTO) throws Exception {
 		int result = productService.addProduct(productDTO);
 		
-		model.addAttribute("resultMsg", "상품 등록에 실패했습니다.");
-		model.addAttribute("url", "list");
+		ModelAndView mnv = new ModelAndView();
+		mnv.addObject("resultMsg", "상품 등록에 실패했습니다.");
+		mnv.addObject("url", "list");
 		
 		if (result > 0) {
-			model.addAttribute("resultMsg", "상품 등록에 성공했습니다.");
+			mnv.addObject("resultMsg", "상품 등록에 성공했습니다.");
 		}
 		
-		return "commons/result";
+		mnv.setViewName("commons/result");
+		
+		return mnv;
 	}
 	
 	@GetMapping("update")

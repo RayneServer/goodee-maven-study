@@ -20,16 +20,16 @@
 					<div class="col-6 offset-3">
 						<!-- action을 명시하지 않으면 요청을 이 페이지의 url로 보냄 -->
 						<form method="POST">
-							<input type="hidden" name="boardNum" value="${ notice.boardNum }" />
+							<input type="hidden" name="boardNum" value="${ board.boardNum }" />
 						
 							<label for="noticeWriter" class="form-label">Writer</label>
-							<input type="text" class="form-control mb-3" id="boardWriter" name="boardWriter" value="${ notice.boardWriter }" <c:if test="${ not empty notice }">readonly</c:if> />
+							<input type="text" class="form-control mb-3" id="boardWriter" name="boardWriter" value="${ board.boardWriter }" />
 							
 							<label for="noticeTitle" class="form-label">Title</label>
-							<input type="text" class="form-control mb-3" id="boardTitle" name="boardTitle" value="${ notice.boardTitle }" />
+							<input type="text" class="form-control mb-3" id="boardTitle" name="boardTitle" value="${ board.boardTitle }" />
 							
 							<label for="noticeContent" class="form-label">Content</label>
-							<textarea class="form-control mb-3" rows="9" id="boardContent" name="boardContent" style="resize: none;">${ notice.boardContent }</textarea>
+							<textarea class="form-control mb-3" rows="9" id="boardContent" name="boardContent" style="resize: none;">${ board.boardContent }</textarea>
 							
 							<button type="submit" class="btn btn-primary">Submit</button>
 						</form>

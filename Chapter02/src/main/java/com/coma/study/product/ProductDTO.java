@@ -17,7 +17,6 @@ public class ProductDTO {
 	private String productContent;
 	private LocalDate productDate;
 	private Double productRate;
-	
 	// join with product_kind (1:1)
 	private ProductKindDTO productKindDTO;
 	

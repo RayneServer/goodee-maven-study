@@ -16,6 +16,12 @@ document.querySelectorAll(".action").forEach((action) => {
 			frm.submit();
 			return;
 		}
+		
+		if (kind == 'r') {
+			frm.setAttribute("action", "./reply");
+			frm.submit();
+			return;
+		}
 	});
 });
 

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coma.study.board.qna.QnaDAO">
+	<select id="selectBoardList" resultType="QnaDTO">
+		SELECT
+				*
+		FROM qna
+		ORDER BY board_ref DESC, board_step ASC;
+	</select>
+	
+	<select id="selectBoardDetail" resultType="QnaDTO">
+		SELECT
+				*
+		FROM qna
+		<where>
+			board_num = #{boardNum}
+		</where>
+	</select>
+	
+	<insert id="insertBoard" parameterType="QnaDTO" useGeneratedKeys="true" keyProperty="boardNum">
+		INSERT INTO qna (board_title, board_content, board_writer, board_ref, board_step, board_depth)
+		VALUES (
+				#{boardTitle}
+			, #{boardContent}
+			, #{boardWriter}
+			<choose>
+				<when test='boardRef != null and boardStep != null and boardDepth != null'>
+			, #{boardRef}
+			, #{boardStep}
+			, #{boardDepth}
+				</when>
+				<otherwise>
+			, 0
+			, 0
+			, 0
+				</otherwise>
+			</choose>
+		)
+	</insert>
+	
+	<update id="updateRef" parameterType="QnaDTO">
+		UPDATE qna
+		SET
+				board_ref = #{boardNum}
+		<where>
+			board_num = #{boardNum}
+		</where>
+	</update>
+	
+	<update id="updateReplyStep" parameterType="QnaDTO">
+		UPDATE qna
+		SET
+			board_step = board_step + 1
+		<where>
+			board_ref = #{boardRef} AND board_step > #{boardStep}
+		</where>
+	</update>
+</mapper>

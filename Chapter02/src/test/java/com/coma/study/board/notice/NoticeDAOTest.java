@@ -38,13 +38,21 @@ class NoticeDAOTest {
 
 	@Test
 	void insertBoardTest() throws Exception {
-		NoticeVO noticeVO = new NoticeVO();
-		noticeVO.setBoardTitle("title12");
-		noticeVO.setBoardContent("content12");
-		noticeVO.setBoardWriter("writer12");
-	 
-		int result = noticeDAO.insertBoard(noticeVO);
-	 
+		int result = 0;
+		
+		for (int i = 0; i < 105; i++) {
+			NoticeVO noticeVO = new NoticeVO();
+			noticeVO.setBoardTitle("title" + i);
+			noticeVO.setBoardContent("냉무");
+			noticeVO.setBoardWriter("ㅇㅇ");
+			
+			result = noticeDAO.insertBoard(noticeVO);
+			
+			if (i % 10 == 0) {
+				Thread.sleep(500);
+			}
+		}
+		
 		// 단정문
 		assertEquals(1, result); 
 	}
