@@ -16,7 +16,7 @@
 		<div id="content-wrapper" class="d-flex flex-column">
 			<div id="content">
 				<c:import url="/WEB-INF/views/include/topbar.jsp"></c:import>
-				<div class="container-fluid">
+				<div class="container-fluid" style="grid-auto-rows: min-content;">
 					<!-- Contents Area -->
 					<div class="row col-8 offset-2">
 						<table class="table align-middle text-center">
