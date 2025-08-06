@@ -3,6 +3,21 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.coma.study.board.qna.QnaDAO">
+	<resultMap type="QnaDTO" id="qnaResultMap">
+		<id property="boardNum" column="board_num" />
+		<result property="boardTitle" column="board_title" />
+		<result property="boardContent" column="board_content" />
+		<result property="boardWriter" column="board_writer" />
+		<result property="boardDate" column="board_date" />
+		<result property="boardHit" column="board_hit" />
+		
+		<association property="boardFileDTO" javaType="BoardFileDTO">
+			<result property="fileNum" column="file_num" />
+			<result property="originName" column="origin_name" />
+			<result property="savedName" column="saved_name" />
+		</association>
+	</resultMap>
+	
 	<select id="selectBoardList" parameterType="Pager" resultType="QnaDTO">
 		SELECT
 				*
@@ -17,10 +32,11 @@
 		FROM qna 
 	</select>
 	
-	<select id="selectBoardDetail" resultType="QnaDTO">
+	<select id="selectBoardDetail" parameterType="QnaDTO" resultMap="qnaResultMap">
 		SELECT
 				*
-		FROM qna
+		FROM qna Q
+		LEFT OUTER JOIN qna_attach QA USING (board_num)
 		<where>
 			board_num = #{boardNum}
 		</where>
@@ -45,6 +61,11 @@
 				</otherwise>
 			</choose>
 		)
+	</insert>
+	
+	<insert id="insertBoardAttach" parameterType="BoardFileDTO">
+		INSERT INTO qna_attach (board_num, origin_name, saved_name)
+		VALUE (#{boardNum}, #{originName}, #{savedName})
 	</insert>
 	
 	<update id="updateRef" parameterType="QnaDTO">
