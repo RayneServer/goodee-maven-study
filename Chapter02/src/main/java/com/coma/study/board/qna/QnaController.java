@@ -10,12 +10,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.coma.study.board.BoardVO;
 import com.coma.study.common.page.Pager;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Controller
 @RequestMapping("/qna/*")
+@Slf4j
 public class QnaController {
 	@Autowired
 	private QnaService qnaService;
@@ -56,8 +60,8 @@ public class QnaController {
 	}
 	
 	@PostMapping("add")
-	public String postQnaAdd(QnaDTO qnaDTO, Model model) throws Exception {
-		int result = qnaService.insertBoard(qnaDTO);
+	public String postQnaAdd(QnaDTO qnaDTO, MultipartFile boardAttach, Model model) throws Exception {
+		int result = qnaService.insertBoard(qnaDTO, boardAttach);
 		
 		model.addAttribute("resultMsg", "게시글 등록에 실패했습니다.");
 		model.addAttribute("url", "list");

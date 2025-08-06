@@ -17,7 +17,11 @@ public class BoardVO {
 	private String boardWriter;
 	private LocalDateTime boardDate;
 	private Long boardHit;
+
+	// board Attach
+	private BoardFileDTO boardFileDTO;
 	
+	// boardDate formatter
 	private String boardDateToString;
 	
 	public void setBoardDate(LocalDateTime boardDate) {

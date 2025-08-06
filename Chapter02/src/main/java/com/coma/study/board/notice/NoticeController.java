@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.coma.study.board.BoardVO;
 import com.coma.study.common.page.Pager;
@@ -45,6 +46,7 @@ public class NoticeController {
 		
 		BoardVO notice = noticeService.selectBoardDetail(noticeVO);
 		model.addAttribute("board", notice);
+		System.out.println(notice.getBoardFileDTO().getSavedName());
 		
 		return "board/detail";
 	}
@@ -55,8 +57,8 @@ public class NoticeController {
 	}
 	
 	@PostMapping("add")
-	public String noticeAdd(NoticeVO noticeVO) throws Exception {
-		int result = noticeService.insertBoard(noticeVO);
+	public String noticeAdd(NoticeVO noticeVO, MultipartFile boardAttach) throws Exception {
+		int result = noticeService.insertBoard(noticeVO, boardAttach);
 		
 		return "redirect:list";
 	}

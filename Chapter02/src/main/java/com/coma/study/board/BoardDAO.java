@@ -10,6 +10,7 @@ public interface BoardDAO {
 	BoardVO selectBoardDetail(BoardVO boardVO) throws Exception;
 	Long selectTotalCount() throws Exception;
 	int insertBoard(BoardVO boardVO) throws Exception;
+	int insertBoardAttach(BoardFileDTO boardFileDTO) throws Exception;
 	int updateBoard(BoardVO boardVO) throws Exception;
 	int deleteBoard(Long boardNum) throws Exception;
 }

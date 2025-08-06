@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.coma.study.board.BoardService;
 import com.coma.study.board.BoardVO;
@@ -28,7 +29,7 @@ public class QnaService implements BoardService {
 	}
 
 	@Override
-	public int insertBoard(BoardVO boardVO) throws Exception {
+	public int insertBoard(BoardVO boardVO, MultipartFile boardAttach) throws Exception {
 		int result = qnaDAO.insertBoard(boardVO);
 		result = qnaDAO.updateRef(boardVO);
 		

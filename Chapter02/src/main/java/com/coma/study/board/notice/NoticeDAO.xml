@@ -5,6 +5,21 @@
 <!-- namespace의 이름은 사용하려는 DAO의 풀패키지명과 동일하게 작성 -->
 <mapper namespace="com.coma.study.board.notice.NoticeDAO">
 	<!-- ID는 DAO의 메서드명과 동일하게 작성 -->
+	<resultMap type="NoticeVO" id="noticeResultMap">
+		<id property="boardNum" column="board_num" />
+		<result property="boardTitle" column="board_title" />
+		<result property="boardContent" column="board_content" />
+		<result property="boardWriter" column="board_writer" />
+		<result property="boardDate" column="board_date" />
+		<result property="boardHit" column="board_hit" />
+		
+		<association property="boardFileDTO" javaType="BoardFileDTO">
+			<result property="fileNum" column="file_num" />
+			<result property="originName" column="origin_name" />
+			<result property="savedName" column="saved_name" />
+		</association>
+	</resultMap>
+	
 	<select id="selectBoardList" parameterType="Pager" resultType="NoticeVO">
 		SELECT
 				board_num
@@ -23,18 +38,24 @@
 		FROM notice 
 	</select>
 	
-	<select id="selectBoardDetail" parameterType="NoticeVO" resultType="NoticeVO">
+	<select id="selectBoardDetail" parameterType="NoticeVO" resultMap="noticeResultMap">
 		SELECT 
 				*
-		FROM notice
+		FROM notice N
+		LEFT OUTER JOIN notice_attach NA USING(board_num)
 		<where>
-			board_num = #{boardNum}
+			N.board_num = #{boardNum}
 		</where>
 	</select>
 	
-	<insert id="insertBoard" parameterType="NoticeVO">
+	<insert id="insertBoard" parameterType="NoticeVO" useGeneratedKeys="true" keyProperty="boardNum">
 		INSERT INTO notice (board_title, board_content, board_writer)
 		VALUE (#{boardTitle}, #{boardContent}, #{boardWriter})
+	</insert>
+	
+	<insert id="insertBoardAttach" parameterType="BoardFileDTO">
+		INSERT INTO notice_attach (board_num, origin_name, saved_name)
+		VALUE (#{boardNum}, #{originName}, #{savedName})
 	</insert>
 	
 	<update id="updateBoard" parameterType="NoticeVO">

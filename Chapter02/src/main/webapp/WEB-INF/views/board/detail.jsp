@@ -29,6 +29,7 @@
 							</div>
 							<div class="card-body">
 								<h6 class="mb-4 text-right">작성자: ${ board.boardWriter } | 조회수: ${ board.boardHit }</h6>
+								<a href="/files/${ requestScope.boardName }/${ board.boardFileDTO.savedName }">click</a>
 								<p>${ board.boardContent }</p>
 							</div>
 						</div>
