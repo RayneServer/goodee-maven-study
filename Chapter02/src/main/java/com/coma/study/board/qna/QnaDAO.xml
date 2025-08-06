@@ -3,11 +3,18 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.coma.study.board.qna.QnaDAO">
-	<select id="selectBoardList" resultType="QnaDTO">
+	<select id="selectBoardList" parameterType="Pager" resultType="QnaDTO">
 		SELECT
 				*
 		FROM qna
-		ORDER BY board_ref DESC, board_step ASC;
+		ORDER BY board_ref DESC, board_step ASC
+		LIMIT #{startIdx}, #{endIdx}
+	</select>
+	
+	<select id="selectTotalCount" resultType="Long">
+		SELECT
+				COUNT(board_num)
+		FROM qna 
 	</select>
 	
 	<select id="selectBoardDetail" resultType="QnaDTO">

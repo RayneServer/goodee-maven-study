@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.coma.study.board.BoardVO;
+import com.coma.study.common.page.Pager;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,7 +21,8 @@ class NoticeDAOTest {
 	
 	@Test
 	void selectBoardListTest() throws Exception {
-		List<BoardVO> resultList = noticeDAO.selectBoardList();
+		Pager pager = new Pager();
+		List<BoardVO> resultList = noticeDAO.selectBoardList(pager);
 		
 		assertNotEquals(0, resultList.size());
 	}

@@ -5,33 +5,40 @@
 <!-- namespace의 이름은 사용하려는 DAO의 풀패키지명과 동일하게 작성 -->
 <mapper namespace="com.coma.study.board.notice.NoticeDAO">
 	<!-- ID는 DAO의 메서드명과 동일하게 작성 -->
-	<select id="selectBoardList" resultType="NoticeVO">
+	<select id="selectBoardList" parameterType="Pager" resultType="NoticeVO">
 		SELECT
 				board_num
 			, board_title
 			, board_writer
 			, board_date
 			, board_hit
-		FROM NOTICE
+		FROM notice
 		ORDER BY board_num DESC
+		LIMIT #{startIdx}, #{endIdx}
+	</select>
+	
+	<select id="selectTotalCount" resultType="Long">
+		SELECT
+				COUNT(board_num)
+		FROM notice 
 	</select>
 	
 	<select id="selectBoardDetail" parameterType="NoticeVO" resultType="NoticeVO">
 		SELECT 
 				*
-		FROM NOTICE
+		FROM notice
 		<where>
 			board_num = #{boardNum}
 		</where>
 	</select>
 	
 	<insert id="insertBoard" parameterType="NoticeVO">
-		INSERT INTO NOTICE (board_title, board_content, board_writer)
+		INSERT INTO notice (board_title, board_content, board_writer)
 		VALUE (#{boardTitle}, #{boardContent}, #{boardWriter})
 	</insert>
 	
 	<update id="updateBoard" parameterType="NoticeVO">
-		UPDATE NOTICE
+		UPDATE notice
 		SET 
 				board_title = #{boardTitle}
 			, board_content = #{boardContent}
@@ -41,7 +48,7 @@
 	</update>
 	
 	<delete id="deleteBoard" parameterType="Long">
-		DELETE FROM NOTICE
+		DELETE FROM notice
 		<where>
 			board_num = #{boardNum}
 		</where>

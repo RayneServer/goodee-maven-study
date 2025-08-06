@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.coma.study.board.BoardVO;
+import com.coma.study.common.page.Pager;
 
 @Controller
 @RequestMapping(value = "/notice/*")
@@ -28,9 +29,10 @@ public class NoticeController {
 	}
 	
 	@GetMapping("list")
-	public String noticeList(Model model) throws Exception {
+	public String noticeList(Pager pager, Model model) throws Exception {
 		// model: request와 비슷한 생명주기를 가진 객체 => 스프링에서 데이터 전송 시 사용
-		List<BoardVO> noticeList = noticeService.selectBoardList();
+		List<BoardVO> noticeList = noticeService.selectBoardList(pager);
+		
 		model.addAttribute("boardList", noticeList);
 		
 		return "board/list";

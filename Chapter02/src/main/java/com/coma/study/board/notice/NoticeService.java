@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.coma.study.board.BoardService;
 import com.coma.study.board.BoardVO;
+import com.coma.study.common.page.Pager;
 
 @Service
 public class NoticeService implements BoardService {
@@ -14,8 +15,11 @@ public class NoticeService implements BoardService {
 	private NoticeDAO noticeDAO;
 
 	@Override
-	public List<BoardVO> selectBoardList() throws Exception {
-		return noticeDAO.selectBoardList();
+	public List<BoardVO> selectBoardList(Pager pager) throws Exception {
+		Long totalCount = noticeDAO.selectTotalCount();
+		
+		pager.initPage(totalCount);
+		return noticeDAO.selectBoardList(pager);
 	}
 
 	@Override

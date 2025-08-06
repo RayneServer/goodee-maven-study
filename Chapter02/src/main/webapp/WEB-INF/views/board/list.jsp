@@ -55,7 +55,25 @@
 							</tbody>
 						</table>
 						
-						<div class="d-flex w-100 justify-content-end align-items-center">
+						<div class="d-flex w-100 justify-content-between align-items-center">
+							<nav class="text-center">
+							  <ul class="pagination m-0">
+							    <li class="page-item ${ pager.startBlockNum eq 1 ? 'disabled' : '' }">
+							      <a class="page-link" href="list?pageNum=${ pager.startBlockNum - 1 }" aria-label="Previous">
+							        <span aria-hidden="true">&laquo;</span>
+							      </a>
+							    </li>
+							    <c:forEach begin="${ pager.startBlockNum }" end="${ pager.endBlockNum }" var="i">
+								    <li class="page-item"><a class="page-link" href="list?pageNum=${ i }">${ i }</a></li>
+									</c:forEach>
+							    <li class="page-item ${ pager.endBlockNum eq pager.totalPage ? 'disabled' : '' }">
+							      <a class="page-link" href="list?pageNum=${ pager.endBlockNum + 1 }" aria-label="Next">
+							        <span aria-hidden="true">&raquo;</span>
+							      </a>
+							    </li>
+							  </ul>
+							</nav>
+							
 							<a href="./add" class="btn btn-primary">Add</a>
 						</div>
 					</div>

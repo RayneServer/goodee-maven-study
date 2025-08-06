@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.coma.study.board.BoardService;
 import com.coma.study.board.BoardVO;
+import com.coma.study.common.page.Pager;
 
 @Service
 public class QnaService implements BoardService {
@@ -14,8 +15,11 @@ public class QnaService implements BoardService {
 	private QnaDAO qnaDAO;
 
 	@Override
-	public List<BoardVO> selectBoardList() throws Exception {
-		return qnaDAO.selectBoardList();
+	public List<BoardVO> selectBoardList(Pager pager) throws Exception {
+		Long totalCount = qnaDAO.selectTotalCount();
+		
+		pager.initPage(totalCount);
+		return qnaDAO.selectBoardList(pager);
 	}
 
 	@Override

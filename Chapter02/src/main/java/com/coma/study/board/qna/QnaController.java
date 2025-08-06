@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.coma.study.board.BoardVO;
+import com.coma.study.common.page.Pager;
 
 @Controller
 @RequestMapping("/qna/*")
@@ -28,8 +29,8 @@ public class QnaController {
 	}
 	
 	@GetMapping("list")
-	public String getQnaList(Model model) throws Exception {
-		List<BoardVO> qnaList = qnaService.selectBoardList();
+	public String getQnaList(Pager pager, Model model) throws Exception {
+		List<BoardVO> qnaList = qnaService.selectBoardList(pager);
 		
 		if (qnaList.size() > 0) {
 			model.addAttribute("boardList", qnaList);
