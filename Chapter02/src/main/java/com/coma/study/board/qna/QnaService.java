@@ -26,7 +26,7 @@ public class QnaService implements BoardService {
 
 	@Override
 	public List<BoardVO> selectBoardList(Pager pager) throws Exception {
-		Long totalCount = qnaDAO.selectTotalCount();
+		Long totalCount = qnaDAO.selectTotalCount(pager);
 		
 		pager.initPage(totalCount);
 		return qnaDAO.selectBoardList(pager);

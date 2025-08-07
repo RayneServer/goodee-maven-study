@@ -20,22 +20,37 @@
 		</association>
 	</resultMap>
 	
+	<sql id="commonSearch">
+		<where>
+			<choose>
+				<when test="kind == 'k2'">
+					board_content
+				</when>
+				<when test="kind == 'k3'">
+					board_writer
+				</when>
+				<otherwise>
+					board_title
+				</otherwise>
+			</choose>
+			LIKE CONCAT('%', #{ keyword }, '%')
+		</where>		
+	</sql>
+	
 	<select id="selectBoardList" parameterType="Pager" resultType="NoticeVO">
 		SELECT
-				board_num
-			, board_title
-			, board_writer
-			, board_date
-			, board_hit
+				*
 		FROM notice
+		<include refid="commonSearch"></include>
 		ORDER BY board_num DESC
 		LIMIT #{startIdx}, #{endIdx}
 	</select>
 	
-	<select id="selectTotalCount" resultType="Long">
+	<select id="selectTotalCount" parameterType="Pager" resultType="Long">
 		SELECT
 				COUNT(board_num)
-		FROM notice 
+		FROM notice
+		<include refid="commonSearch"></include>
 	</select>
 	
 	<select id="selectBoardDetail" parameterType="NoticeVO" resultMap="noticeResultMap">

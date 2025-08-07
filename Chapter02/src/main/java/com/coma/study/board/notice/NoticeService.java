@@ -26,7 +26,7 @@ public class NoticeService implements BoardService {
 
 	@Override
 	public List<BoardVO> selectBoardList(Pager pager) throws Exception {
-		Long totalCount = noticeDAO.selectTotalCount();
+		Long totalCount = noticeDAO.selectTotalCount(pager);
 		
 		pager.initPage(totalCount);
 		return noticeDAO.selectBoardList(pager);
@@ -40,6 +40,8 @@ public class NoticeService implements BoardService {
 	@Override
 	public int insertBoard(BoardVO boardVO, MultipartFile boardAttach) throws Exception {
 		int result = noticeDAO.insertBoard(boardVO);
+		
+		if (boardAttach == null || boardAttach.isEmpty()) return result;
 		
 		// File을 HDD에 저장
 		String fileName = fileManager.fileSave(upload + board, boardAttach);

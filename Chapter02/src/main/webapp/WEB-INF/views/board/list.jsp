@@ -21,7 +21,22 @@
 					<div class="width-100 mb-5 d-flex justify-content-center align-items-center">
 						<h1>${ requestScope.boardName }</h1>
 					</div>
-					<div class="row col-8 offset-2">
+					<div class="col-8 offset-2">
+						<form id="searchForm">
+							<div class="input-group mb-3">
+								<input type="hidden" id="pageNum" name="pageNum" value=${ pager.pageNum } />
+								<select class="custom-select" name="kind">
+									<option value="k1" ${ pager.kind eq 'k1' ? 'selected' : '' }>제목</option>
+									<option value="k2" ${ pager.kind eq 'k2' ? 'selected' : '' }>내용</option>
+									<option value="k3" ${ pager.kind eq 'k3' ? 'selected' : '' }>작성자</option>
+								</select>
+							  <input type="text" class="form-control" name="keyword" placeholder="검색어" value="${ pager.keyword }" />
+							  <div class="input-group-append">
+							    <button class="btn btn-outline-secondary" type="submit">Search</button>
+							  </div>
+							</div>
+						</form>
+					
 						<table class="table align-middle text-center">
 							<thead>
 								<tr>
@@ -59,15 +74,15 @@
 							<nav class="text-center">
 							  <ul class="pagination m-0">
 							    <li class="page-item ${ pager.startBlockNum eq 1 ? 'disabled' : '' }">
-							      <a class="page-link" href="list?pageNum=${ pager.startBlockNum - 1 }" aria-label="Previous">
+							      <a class="page-link page-num" data-page-num="${ pager.startBlockNum - 1 }" >
 							        <span aria-hidden="true">&laquo;</span>
 							      </a>
 							    </li>
 							    <c:forEach begin="${ pager.startBlockNum }" end="${ pager.endBlockNum }" var="i">
-								    <li class="page-item"><a class="page-link" href="list?pageNum=${ i }">${ i }</a></li>
+								    <li class="page-item"><a class="page-link page-num" data-page-num="${ i }" >${ i }</a></li>
 									</c:forEach>
 							    <li class="page-item ${ pager.endBlockNum eq pager.totalPage ? 'disabled' : '' }">
-							      <a class="page-link" href="list?pageNum=${ pager.endBlockNum + 1 }" aria-label="Next">
+							      <a class="page-link page-num" data-page-num="${ pager.endBlockNum + 1 }" >
 							        <span aria-hidden="true">&raquo;</span>
 							      </a>
 							    </li>
@@ -86,6 +101,7 @@
 	</div>
 	
 	<c:import url="/WEB-INF/views/include/tail.jsp"></c:import>
+	<script src="/js/board/board-list.js"></script>
 </body>
 
 </html>

@@ -14,6 +14,10 @@ public class Pager {
 	private Long startBlockNum; // 하단 페이지 블럭 시작 번호
 	private Long endBlockNum; // 하단 페이지 블럭 끝 번호
 	
+	// for Search
+	private String kind;
+	private String keyword;
+	
 	private void calcPage() {
 		this.startIdx = perPage * (pageNum - 1);
 		this.endIdx = perPage;
@@ -47,5 +51,11 @@ public class Pager {
 		if (this.perPage == null) this.perPage = 10L;
 		
 		return perPage;
+	}
+	
+	public String getKeyword() {
+		if (this.keyword == null) this.keyword = "";
+		
+		return keyword;
 	}
 }

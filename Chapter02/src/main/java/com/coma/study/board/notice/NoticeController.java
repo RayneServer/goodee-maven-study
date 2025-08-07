@@ -46,7 +46,6 @@ public class NoticeController {
 		
 		BoardVO notice = noticeService.selectBoardDetail(noticeVO);
 		model.addAttribute("board", notice);
-		System.out.println(notice.getBoardFileDTO().getSavedName());
 		
 		return "board/detail";
 	}
