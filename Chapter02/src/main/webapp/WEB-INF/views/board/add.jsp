@@ -31,9 +31,17 @@
 							<label for="noticeContent" class="form-label">Content</label>
 							<textarea class="form-control mb-3" rows="9" id="boardContent" name="boardContent" style="resize: none;">${ board.boardContent }</textarea>
 							
-							<input type="file" name="boardAttach" />
-							
-							<button type="submit" class="btn btn-primary">Submit</button>
+							<div>
+								<button type="button" id="addBtn" class="btn btn-primary">Add</button>
+							</div>
+								
+							<div id="addResult">
+
+							</div>
+
+							<div class="mt-3">
+								<button type="submit" class="btn btn-primary">Submit</button>
+							</div>
 						</form>
 					</div>
 				</div>
@@ -45,6 +53,7 @@
 	</div>
 	
 	<c:import url="/WEB-INF/views/include/tail.jsp"></c:import>
+	<script src="/js/board/board-add.js"></script>
 </body>
 
 </html>
