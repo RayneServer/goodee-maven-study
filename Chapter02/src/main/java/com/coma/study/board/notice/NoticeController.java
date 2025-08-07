@@ -10,13 +10,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.coma.study.board.BoardVO;
 import com.coma.study.common.page.Pager;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Controller
 @RequestMapping(value = "/notice/*")
+@Slf4j
 public class NoticeController {
 	@Autowired
 	private NoticeService noticeService;
@@ -106,5 +110,11 @@ public class NoticeController {
 		model.addAttribute("url", url);
 		
 		return "commons/result";
+	}
+	
+	@PostMapping("fileDelete")
+	@ResponseBody
+	public String getFileDelete(Long fileNum, Model model) throws Exception {
+		return "파일 번호: " + fileNum;
 	}
 }

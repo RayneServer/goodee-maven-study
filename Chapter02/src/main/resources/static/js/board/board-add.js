@@ -1,7 +1,12 @@
+const addResult = document.querySelector("#addResult");
+const deleteFile = document.querySelectorAll(".deleteFile");
+
 document.querySelector("#addBtn").addEventListener("click", (event) => {
 	event.preventDefault();
 	
-	if (document.querySelector("#addResult").childElementCount >= 5) return;
+	const count = 5 - addResult.getAttribute("data-file-count");
+	
+	if (addResult.childElementCount >= count) return;
 	
 	const inputNode = document.createElement("input");
 	inputNode.setAttribute("type", "file");
@@ -18,12 +23,28 @@ document.querySelector("#addBtn").addEventListener("click", (event) => {
 	inputDiv.appendChild(inputNode);
 	inputDiv.appendChild(inputBtn);
 	
-	document.querySelector("#addResult").appendChild(inputDiv);
+	addResult.appendChild(inputDiv);
 	
 });
 
-document.querySelector("#addResult").addEventListener("click", (event) => {
+addResult.addEventListener("click", (event) => {
 	if (event.target.classList.contains("deleteBtn")) {
 		event.target.parentElement.remove();
 	}
 });
+
+deleteFile.forEach((file) => {
+	file.addEventListener("click", (event) => {
+		const fileNum = file.getAttribute("data-file-num");
+		
+		const params = new URLSearchParams();
+		params.append("fileNum", fileNum);
+		
+		fetch(`fileDelete`, {
+			method : "POST",
+			body : params
+		})
+		.then((data) => data.text())
+		.then((data) => console.log(data))
+	})
+})

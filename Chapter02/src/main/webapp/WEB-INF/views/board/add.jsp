@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
 <!DOCTYPE html>
 <html>
 
@@ -34,8 +35,14 @@
 							<div>
 								<button type="button" id="addBtn" class="btn btn-primary">Add</button>
 							</div>
+							
+							<div>
+								<c:forEach var="file" items="${ board.boardFileDTOs }">
+									<button class="deleteFile" type="button" data-file-num="${ file.fileNum }">${ file.originName }</button>
+								</c:forEach>
+							</div>
 								
-							<div id="addResult">
+							<div id="addResult" data-file-count="${ fn:length(board.boardFileDTOs) }">
 
 							</div>
 
