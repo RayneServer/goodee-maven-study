@@ -56,8 +56,8 @@ public class NoticeController {
 	}
 	
 	@PostMapping("add")
-	public String noticeAdd(NoticeVO noticeVO, MultipartFile boardAttach) throws Exception {
-		int result = noticeService.insertBoard(noticeVO, boardAttach);
+	public String noticeAdd(NoticeVO noticeVO, MultipartFile[] boardAttaches) throws Exception {
+		int result = noticeService.insertBoard(noticeVO, boardAttaches);
 		
 		return "redirect:list";
 	}

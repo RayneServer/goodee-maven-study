@@ -13,4 +13,5 @@ public interface BoardDAO {
 	int insertBoardAttach(BoardFileDTO boardFileDTO) throws Exception;
 	int updateBoard(BoardVO boardVO) throws Exception;
 	int deleteBoard(Long boardNum) throws Exception;
+	int deleteBoardAttach(Long boardNum) throws Exception;
 }

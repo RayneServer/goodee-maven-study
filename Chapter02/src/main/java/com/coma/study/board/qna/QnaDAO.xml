@@ -11,11 +11,11 @@
 		<result property="boardDate" column="board_date" />
 		<result property="boardHit" column="board_hit" />
 		
-		<association property="boardFileDTO" javaType="BoardFileDTO">
+		<collection property="boardFileDTOs" javaType="java.util.List" ofType="BoardFileDTO">
 			<result property="fileNum" column="file_num" />
 			<result property="originName" column="origin_name" />
 			<result property="savedName" column="saved_name" />
-		</association>
+		</collection>
 	</resultMap>
 	
 	<select id="selectBoardList" parameterType="Pager" resultType="QnaDTO">
@@ -85,4 +85,18 @@
 			board_ref = #{boardRef} AND board_step > #{boardStep}
 		</where>
 	</update>
+	
+	<delete id="deleteBoard" parameterType="Long">
+		DELETE FROM qna
+		<where>
+			board_num = #{boardNum}
+		</where>
+	</delete>
+	
+	<delete id="deleteBoardAttach" parameterType="Long">
+		DELETE FROM qna_attach
+		<where>
+			board_num = #{boardNum}
+		</where>
+	</delete>
 </mapper>

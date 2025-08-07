@@ -29,7 +29,9 @@
 							</div>
 							<div class="card-body">
 								<h6 class="mb-4 text-right">작성자: ${ board.boardWriter } | 조회수: ${ board.boardHit }</h6>
-								<a href="/files/${ requestScope.boardName }/${ board.boardFileDTO.savedName }">click</a>
+								<c:forEach var="boardFile" items="${ board.boardFileDTOs }">
+									<img width="100%" alt="" src="/files/${ requestScope.boardName }/${ boardFile.savedName }">
+								</c:forEach>
 								<p>${ board.boardContent }</p>
 							</div>
 						</div>

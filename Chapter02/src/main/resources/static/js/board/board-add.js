@@ -1,9 +1,11 @@
 document.querySelector("#addBtn").addEventListener("click", (event) => {
 	event.preventDefault();
 	
+	if (document.querySelector("#addResult").childElementCount >= 5) return;
+	
 	const inputNode = document.createElement("input");
 	inputNode.setAttribute("type", "file");
-	inputNode.setAttribute("name", "boardAttach");
+	inputNode.setAttribute("name", "boardAttaches");
 	inputNode.classList.add("form-control")
 	
 	const inputBtn = document.createElement("button");

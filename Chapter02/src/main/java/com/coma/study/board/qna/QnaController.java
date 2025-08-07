@@ -60,8 +60,8 @@ public class QnaController {
 	}
 	
 	@PostMapping("add")
-	public String postQnaAdd(QnaDTO qnaDTO, MultipartFile boardAttach, Model model) throws Exception {
-		int result = qnaService.insertBoard(qnaDTO, boardAttach);
+	public String postQnaAdd(QnaDTO qnaDTO, MultipartFile[] boardAttaches, Model model) throws Exception {
+		int result = qnaService.insertBoard(qnaDTO, boardAttaches);
 		
 		model.addAttribute("resultMsg", "게시글 등록에 실패했습니다.");
 		model.addAttribute("url", "list");
@@ -89,6 +89,20 @@ public class QnaController {
 		
 		if (result > 0) {
 			model.addAttribute("resultMsg", "게시글 등록에 성공했습니다.");
+		}
+		
+		return "commons/result";
+	}
+	
+	@PostMapping("delete")
+	public String postQnaDelete(Long boardNum, Model model) throws Exception {
+		int result = qnaService.deleteBoard(boardNum);
+		
+		model.addAttribute("resultMsg", "게시글 삭제에 실패했습니다.");
+		model.addAttribute("url", "list");
+		
+		if (result > 0) {
+			model.addAttribute("resultMsg", "게시글 삭제에 성공했습니다.");
 		}
 		
 		return "commons/result";

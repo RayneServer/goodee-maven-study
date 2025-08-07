@@ -2,6 +2,7 @@ package com.coma.study.board;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -19,7 +20,7 @@ public class BoardVO {
 	private Long boardHit;
 
 	// board Attach
-	private BoardFileDTO boardFileDTO;
+	private List<BoardFileDTO> boardFileDTOs;
 	
 	// boardDate formatter
 	private String boardDateToString;

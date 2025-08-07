@@ -13,11 +13,11 @@
 		<result property="boardDate" column="board_date" />
 		<result property="boardHit" column="board_hit" />
 		
-		<association property="boardFileDTO" javaType="BoardFileDTO">
+		<collection property="boardFileDTOs" javaType="java.util.List" ofType="BoardFileDTO">
 			<result property="fileNum" column="file_num" />
 			<result property="originName" column="origin_name" />
 			<result property="savedName" column="saved_name" />
-		</association>
+		</collection>
 	</resultMap>
 	
 	<sql id="commonSearch">
@@ -85,6 +85,13 @@
 	
 	<delete id="deleteBoard" parameterType="Long">
 		DELETE FROM notice
+		<where>
+			board_num = #{boardNum}
+		</where>
+	</delete>
+	
+	<delete id="deleteBoardAttach" parameterType="Long">
+		DELETE FROM notice_attach
 		<where>
 			board_num = #{boardNum}
 		</where>
