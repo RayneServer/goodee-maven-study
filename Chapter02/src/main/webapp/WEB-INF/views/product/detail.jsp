@@ -5,7 +5,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>Notice Detail</title>
+	<title>Product Detail</title>
 	
 	<c:import url="/WEB-INF/views/include/head_css.jsp"></c:import>
 </head>
@@ -21,22 +21,22 @@
 					<div class="col-8 offset-2">
 						<div class="card shadow">
 							<div class="card-header d-flex justify-content-between align-items-center py-3">
-								<h4 class="m-0 font-weight-bold text-primary">${ notice.boardTitle }</h4>
-								<h6 class="m-0">${ notice.boardDateToString }</h6>
+								<h4 class="m-0 font-weight-bold text-primary">${ product.productName }</h4>
+								<h6 class="m-0">${ product.productDateToString }</h6>
 							</div>
 							<div class="card-body">
-								<h6 class="mb-4 text-right">작성자: ${ notice.boardWriter } | 조회수: ${ notice.boardHit }</h6>
-								<p>${ notice.boardContent }</p>
+								<h6 class="mb-4 text-right">종류: ${ product.productKindDTO.productKindName } | 연이율: ${ product.productRate }</h6>
+								<p>${ product.productContent }</p>
 							</div>
 						</div>
 						
 						<div class="d-flex mt-3 justify-content-end align-items-center">
 							<form id="frm">
-								<input type="hidden" name="boardNum" value="${ notice.boardNum }" />
+								<input type="hidden" name="productNum" value="${ product.productNum }" />
 							</form>
 							
-							<button class="btn btn-success mr-3 action" data-kind="u">Update</button>
-							<button class="btn btn-danger action" data-kind="d">Delete</button>
+							<button class="btn btn-success mr-3 action" data-kind="u">상품수정</button>
+							<button class="btn btn-danger action" data-kind="d">상품삭제</button>
 						</div>
 					</div>
 				</div>
@@ -48,7 +48,7 @@
 	</div>
 	
 	<c:import url="/WEB-INF/views/include/tail.jsp"></c:import>
-	<script src="/js/board/board-detail.js"></script>
+	<script src="/js/product/product-detail.js"></script>
 </body>
 
 </html>

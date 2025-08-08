@@ -3,27 +3,45 @@ package com.coma.study.board.notice;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.coma.study.board.BoardFileDTO;
 import com.coma.study.board.BoardVO;
+import com.coma.study.common.page.Pager;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequestMapping(value = "/notice/*")
+@Slf4j
 public class NoticeController {
 	@Autowired
 	private NoticeService noticeService;
 	
+	@Value("${board.notice}")
+	private String name;
+	
+	@ModelAttribute("boardName")
+	public String getBoardName() {
+		return name;
+	}
+	
 	@GetMapping("list")
-	public String noticeList(Model model) throws Exception {
+	public String noticeList(Pager pager, Model model) throws Exception {
 		// model: request와 비슷한 생명주기를 가진 객체 => 스프링에서 데이터 전송 시 사용
-		List<BoardVO> noticeList = noticeService.selectBoardList();
-		model.addAttribute("noticeList", noticeList);
+		List<BoardVO> noticeList = noticeService.selectBoardList(pager);
 		
-		return "notice/list";
+		model.addAttribute("boardList", noticeList);
+		
+		return "board/list";
 	}
 	
 	@GetMapping("detail")
@@ -32,19 +50,19 @@ public class NoticeController {
 		noticeVO.setBoardNum(boardNum);
 		
 		BoardVO notice = noticeService.selectBoardDetail(noticeVO);
-		model.addAttribute("notice", notice);
+		model.addAttribute("board", notice);
 		
-		return "notice/detail";
+		return "board/detail";
 	}
 	
 	@GetMapping("add")
 	public String noticeAdd() throws Exception {
-		return "notice/add";
+		return "board/add";
 	}
 	
 	@PostMapping("add")
-	public String noticeAdd(NoticeVO noticeVO) throws Exception {
-		int result = noticeService.insertBoard(noticeVO);
+	public String noticeAdd(NoticeVO noticeVO, MultipartFile[] boardAttaches) throws Exception {
+		int result = noticeService.insertBoard(noticeVO, boardAttaches);
 		
 		return "redirect:list";
 	}
@@ -55,14 +73,14 @@ public class NoticeController {
 		noticeVO.setBoardNum(boardNum);
 		
 		BoardVO notice = noticeService.selectBoardDetail(noticeVO);
-		model.addAttribute("notice", notice);
+		model.addAttribute("board", notice);
 		
-		return "notice/add";
+		return "board/add";
 	}
 	
 	@PostMapping("update")
-	public String noticeUpdate(NoticeVO noticeVO, Model model) throws Exception {
-		int result = noticeService.updateBoard(noticeVO);
+	public String noticeUpdate(NoticeVO noticeVO, MultipartFile[] boardAttaches, Model model) throws Exception {
+		int result = noticeService.updateBoard(noticeVO, boardAttaches);
 		
 		String resultMsg = "수정 중 오류가 발생했습니다.";
 		String url = "detail?boardNum=" + noticeVO.getBoardNum();
@@ -93,5 +111,13 @@ public class NoticeController {
 		model.addAttribute("url", url);
 		
 		return "commons/result";
+	}
+	
+	@PostMapping("fileDelete")
+	@ResponseBody
+	public int getFileDelete(BoardFileDTO boardFileDTO, Model model) throws Exception {
+		int result = noticeService.deleteBoardFile(boardFileDTO);
+
+		return result;
 	}
 }

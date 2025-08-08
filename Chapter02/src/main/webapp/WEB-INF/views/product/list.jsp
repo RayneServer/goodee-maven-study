@@ -5,7 +5,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>Notice List</title>
+	<title>Product List</title>
 	
 	<c:import url="/WEB-INF/views/include/head_css.jsp"></c:import>
 </head>
@@ -17,33 +17,34 @@
 			<div id="content">
 				<c:import url="/WEB-INF/views/include/topbar.jsp"></c:import>
 				<div class="container-fluid">
-					<!-- Contents Area -->
-					<div class="row col-8 offset-2">
-						<table class="table align-middle text-center">
+					<div class="col-8 offset-2">
+						<div class="width-100 mb-5 d-flex justify-content-center align-items-center">
+							<h1>Product List</h1>
+						</div>
+						
+						<table class="table text-center">
 							<thead>
-								<tr>
-									<th scope="col" class="col-1">번호</th>
-									<th scope="col" class="col-5">제목</th>
-									<th scope="col" class="col-2">작성자</th>
-									<th scope="col" class="col-3">작성일</th>
-									<th scope="col" class="col-1">조회수</th>
+								<tr">
+									<th class="col-2">상품번호</th>
+									<th class="col-5">상품명</th>
+									<th class="col-1">이율</th>
+									<th class="col-4">마감일</th>
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach var="notice" items="${ requestScope.noticeList }">
+								<c:forEach var="product" items="${ productList }">
 									<tr>
-										<td>${ notice.boardNum }</td>
-										<td><a href="./detail?boardNum=${ notice.boardNum }">${ notice.boardTitle }</a></td>
-										<td>${ notice.boardWriter }</td>
-										<td>${ notice.boardDateToString }</td>
-										<td>${ notice.boardHit }</td>
+										<td>${ product.productNum }</td>
+										<td><a href="detail?productNum=${ product.productNum }">${ product.productName }</a></td>
+										<td>${ product.productRate }</td>
+										<td>${ product.productDateToString }</td>
 									</tr>
 								</c:forEach>
 							</tbody>
 						</table>
 						
-						<div class="d-flex w-100 justify-content-end align-items-center">
-							<a href="./add" class="btn btn-primary">Add</a>
+						<div class="width-100 mt-5 d-flex justify-content-center align-items-center">
+							<a href="add" class="btn btn-primary">상품등록</a>
 						</div>
 					</div>
 				</div>

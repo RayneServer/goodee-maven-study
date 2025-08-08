@@ -2,6 +2,7 @@ package com.coma.study.board;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -17,11 +18,15 @@ public class BoardVO {
 	private String boardWriter;
 	private LocalDateTime boardDate;
 	private Long boardHit;
+
+	// board Attach
+	private List<BoardFileDTO> boardFileDTOs;
 	
+	// boardDate formatter
 	private String boardDateToString;
 	
 	public void setBoardDate(LocalDateTime boardDate) {
 		this.boardDate = boardDate;
-		setBoardDateToString(boardDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		setBoardDateToString(boardDate.format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일")));
 	}
 }

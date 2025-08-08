@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coma.study.product.ProductDAO">
+	<resultMap type="ProductDTO" id="productResultMap">
+		<id property="productNum" column="product_num" />
+		<result property="productKindNum" column="product_kind_num" />
+		<result property="productName" column="product_name" />
+		<result property="productContent" column="product_content" />
+		<result property="productDate" column="product_date" />
+		<result property="productRate" column="product_rate" />
+		
+		<!-- 1:1 관계인 경우 -->
+		<association property="productKindDTO" javaType="ProductKindDTO">
+			<result property="productKindName" column="product_kind_name" />
+		</association>
+	</resultMap>
+
+	<select id="selectProductList" resultType="ProductDTO">
+		SELECT
+				*
+		FROM product
+		ORDER BY product_num DESC
+	</select>
+	
+	<select id="selectProductDetail" parameterType="Long" resultMap="productResultMap">
+		SELECT
+				*
+		FROM product P
+		INNER JOIN product_kind PK USING(product_kind_num)
+		<where>
+			P.product_num = #{productNum}
+		</where>
+	</select>
+	
+	<insert id="insertProduct" parameterType="ProductDTO">
+		INSERT INTO product (product_kind_num, product_name, product_content, product_date, product_rate)
+		VALUES (#{productKindNum}, #{productName}, #{productContent}, #{productDate}, #{productRate})
+	</insert>
+	
+	<update id="updateProduct" parameterType="ProductDTO">
+		UPDATE product
+		SET
+				product_name = #{productName}
+			, product_kind_num = #{productKindNum}
+			, product_date = #{productDate}
+			, product_rate = #{productRate}
+			, product_content = #{productContent}
+		<where>
+			product_num = #{productNum}
+		</where>
+	</update>
+	
+	<delete id="deleteProduct" parameterType="Long">
+		DELETE FROM product
+		<where>
+			product_num = #{productNum}
+		</where>
+	</delete>
+</mapper>

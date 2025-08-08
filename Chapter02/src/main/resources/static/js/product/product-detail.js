@@ -16,20 +16,5 @@ document.querySelectorAll(".action").forEach((action) => {
 			frm.submit();
 			return;
 		}
-		
-		if (kind == 'r') {
-			frm.setAttribute("action", "./reply");
-			frm.submit();
-			return;
-		}
 	});
 });
-
-/*const action = document.getElementsByClassName("action");
-
-for (a of action) {
-	a.addEventListener("click", (event) => {
-		let kind = event.target.getAttribute("data-kind");
-		alert(kind);
-	})
-}*/
