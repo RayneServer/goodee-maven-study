@@ -64,7 +64,7 @@ local.properties
 #.project
 
 ### Spring ###
-application.properties
+*-*.properties
 
 ### Eclipse Patch ###
 # Spring Boot Tooling
