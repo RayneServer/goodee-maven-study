@@ -41,6 +41,7 @@ public class NoticeService implements BoardService {
 	public int insertBoard(BoardVO boardVO, MultipartFile[] boardAttaches) throws Exception {
 		int result = noticeDAO.insertBoard(boardVO);
 		
+		if (boardAttaches == null) return result;
 		for (MultipartFile boardAttach : boardAttaches) {
 			if (boardAttach == null || boardAttach.isEmpty()) continue;
 			
@@ -59,8 +60,23 @@ public class NoticeService implements BoardService {
 	}
 
 	@Override
-	public int updateBoard(BoardVO boardVO) throws Exception {
-		return noticeDAO.updateBoard(boardVO);
+	public int updateBoard(BoardVO boardVO, MultipartFile[] boardAttaches) throws Exception {
+		int result = noticeDAO.updateBoard(boardVO);
+		
+		if (boardAttaches == null) return result;
+		for (MultipartFile boardAttach : boardAttaches) {
+			if (boardAttach == null || boardAttach.isEmpty()) continue;
+			
+			String fileName = fileManager.fileSave(upload + board, boardAttach);
+			
+			BoardFileDTO boardFileDTO = new BoardFileDTO();
+			boardFileDTO.setBoardNum(boardVO.getBoardNum());
+			boardFileDTO.setOriginName(boardAttach.getOriginalFilename());
+			boardFileDTO.setSavedName(fileName);
+			noticeDAO.insertBoardAttach(boardFileDTO);
+		}
+		
+		return result;
 	}
 
 	@Override
@@ -76,6 +92,16 @@ public class NoticeService implements BoardService {
 		
 		int result = noticeDAO.deleteBoardAttach(boardNum);
 		result = noticeDAO.deleteBoard(boardNum);
+		
+		return result;
+	}
+
+	@Override
+	public int deleteBoardFile(BoardFileDTO boardFileDTO) throws Exception {
+		boardFileDTO = noticeDAO.selectBoardAttach(boardFileDTO);
+		boolean success = fileManager.fileDelete(upload + board, boardFileDTO.getSavedName());
+		
+		int result = noticeDAO.deleteBoardAttachOne(boardFileDTO.getFileNum());
 		
 		return result;
 	}

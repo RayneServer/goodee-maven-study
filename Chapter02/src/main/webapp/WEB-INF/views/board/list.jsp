@@ -19,20 +19,28 @@
 				<div class="container-fluid">
 					<!-- Contents Area -->
 					<div class="width-100 mb-5 d-flex justify-content-center align-items-center">
-						<h1>${ requestScope.boardName }</h1>
+						<c:choose>
+							<c:when test="${ requestScope.boardName eq 'notice'}">
+								<h1>공지사항</h1>
+							</c:when>
+							
+							<c:when test="${ requestScope.boardName eq 'qna'}">
+								<h1>질문 게시판</h1>
+							</c:when>
+						</c:choose>
 					</div>
 					<div class="col-8 offset-2">
 						<form id="searchForm">
-							<div class="input-group mb-3">
+							<div class="input-group mb-3 col-8 offset-2">
 								<input type="hidden" id="pageNum" name="pageNum" value=${ pager.pageNum } />
-								<select class="custom-select" name="kind">
+								<select class="custom-select rounded-left col-3" name="kind">
 									<option value="k1" ${ pager.kind eq 'k1' ? 'selected' : '' }>제목</option>
 									<option value="k2" ${ pager.kind eq 'k2' ? 'selected' : '' }>내용</option>
 									<option value="k3" ${ pager.kind eq 'k3' ? 'selected' : '' }>작성자</option>
 								</select>
 							  <input type="text" class="form-control" name="keyword" placeholder="검색어" value="${ pager.keyword }" />
 							  <div class="input-group-append">
-							    <button class="btn btn-outline-secondary" type="submit">Search</button>
+							    <button class="btn btn-outline-secondary py-0" type="submit" style="border-color: #d1d3e2;">Search</button>
 							  </div>
 							</div>
 						</form>
@@ -49,23 +57,37 @@
 							</thead>
 							<tbody>
 								<c:forEach var="board" items="${ requestScope.boardList }">
-									<tr>
-										<td>${ board.boardNum }</td>
-										<td class="text-left">
-											<a href="./detail?boardNum=${ board.boardNum }">
-												<c:catch>
-													<c:forEach begin="1" end="${ board.boardDepth }" varStatus="index">
-														<c:if test="${ not index.last }">&nbsp;&nbsp;</c:if>
-														<c:if test="${ index.last }">ㄴ</c:if>
-													</c:forEach>
-												</c:catch>
-												${ board.boardTitle }
-											</a>
-										</td>
-										<td>${ board.boardWriter }</td>
-										<td>${ board.boardDateToString }</td>
-										<td>${ board.boardHit }</td>
-									</tr>
+									<c:choose>
+										<c:when test="${ empty board.boardTitle }">
+											<tr>
+												<td></td>
+												<td class="text-left">착한 사람은 볼 수 없는 게시글입니다.</td>
+												<td></td>
+												<td></td>
+												<td></td>
+											</tr>
+										</c:when>
+										
+										<c:otherwise>
+											<tr>
+												<td>${ board.boardNum }</td>
+												<td class="text-left">
+													<a href="./detail?boardNum=${ board.boardNum }">
+														<c:catch>
+															<c:forEach begin="1" end="${ board.boardDepth }" varStatus="index">
+																<c:if test="${ not index.last }">&nbsp;&nbsp;</c:if>
+																<c:if test="${ index.last }">ㄴ</c:if>
+															</c:forEach>
+														</c:catch>
+														${ board.boardTitle }
+													</a>
+												</td>
+												<td>${ board.boardWriter }</td>
+												<td>${ board.boardDateToString }</td>
+												<td>${ board.boardHit }</td>
+											</tr>
+										</c:otherwise>
+									</c:choose>
 								</c:forEach>
 							</tbody>
 						</table>

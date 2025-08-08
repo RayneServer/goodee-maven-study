@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.coma.study.board.BoardFileDTO;
 import com.coma.study.board.BoardVO;
 import com.coma.study.common.page.Pager;
 
@@ -78,8 +79,8 @@ public class NoticeController {
 	}
 	
 	@PostMapping("update")
-	public String noticeUpdate(NoticeVO noticeVO, Model model) throws Exception {
-		int result = noticeService.updateBoard(noticeVO);
+	public String noticeUpdate(NoticeVO noticeVO, MultipartFile[] boardAttaches, Model model) throws Exception {
+		int result = noticeService.updateBoard(noticeVO, boardAttaches);
 		
 		String resultMsg = "수정 중 오류가 발생했습니다.";
 		String url = "detail?boardNum=" + noticeVO.getBoardNum();
@@ -114,7 +115,9 @@ public class NoticeController {
 	
 	@PostMapping("fileDelete")
 	@ResponseBody
-	public String getFileDelete(Long fileNum, Model model) throws Exception {
-		return "파일 번호: " + fileNum;
+	public int getFileDelete(BoardFileDTO boardFileDTO, Model model) throws Exception {
+		int result = noticeService.deleteBoardFile(boardFileDTO);
+
+		return result;
 	}
 }

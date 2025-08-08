@@ -41,7 +41,7 @@
 								<input type="hidden" name="boardNum" value="${ board.boardNum }" />
 							</form>
 							
-							<c:if test="${ requestScope.boardName ne 'Notice' }">
+							<c:if test="${ requestScope.boardName ne 'notice' }">
 								<button class="btn btn-primary action" data-kind="r">Reply</button>
 							</c:if>
 							<button class="btn btn-success ml-3 action" data-kind="u">Update</button>

@@ -32,13 +32,11 @@
 							<label for="noticeContent" class="form-label">Content</label>
 							<textarea class="form-control mb-3" rows="9" id="boardContent" name="boardContent" style="resize: none;">${ board.boardContent }</textarea>
 							
-							<div>
-								<button type="button" id="addBtn" class="btn btn-primary">Add</button>
-							</div>
-							
-							<div>
+							<div class="d-flex align-items-center">
+								<button type="button" id="addBtn" class="btn btn-primary mr-3">Add</button>
+								<span>현재 첨부파일: </span>
 								<c:forEach var="file" items="${ board.boardFileDTOs }">
-									<button class="deleteFile" type="button" data-file-num="${ file.fileNum }">${ file.originName }</button>
+									<button class="deleteFile btn btn-outline-secondary py-0 ml-2" type="button" style="width: 80px; overflow: hidden; text-overflow: ellipsis;" data-file-num="${ file.fileNum }">${ file.originName }</button>
 								</c:forEach>
 							</div>
 								

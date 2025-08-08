@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.coma.study.board.BoardFileDTO;
 import com.coma.study.board.BoardVO;
 import com.coma.study.common.page.Pager;
 
@@ -81,8 +83,30 @@ public class QnaController {
 	}
 	
 	@PostMapping("reply")
-	public String postQnaReply(QnaDTO qnaDTO, Model model) throws Exception {
-		int result = qnaService.insertReply(qnaDTO);
+	public String postQnaReply(QnaDTO qnaDTO, MultipartFile[] boardAttaches, Model model) throws Exception {
+		int result = qnaService.insertReply(qnaDTO, boardAttaches);
+		
+		model.addAttribute("resultMsg", "게시글 등록에 실패했습니다.");
+		model.addAttribute("url", "list");
+		
+		if (result > 0) {
+			model.addAttribute("resultMsg", "게시글 등록에 성공했습니다.");
+		}
+		
+		return "commons/result";
+	}
+	
+	@GetMapping("update")
+	public String getQnaUpdate(QnaDTO qnaDTO, Model model) throws Exception {
+		BoardVO boardVO = qnaService.selectBoardDetail(qnaDTO);
+		
+		model.addAttribute("board", boardVO);
+		return "board/add";
+	}
+	
+	@PostMapping("update")
+	public String postQnaUpdate(QnaDTO qnaDTO, MultipartFile[] boardAttaches, Model model) throws Exception {
+		int result = qnaService.updateBoard(qnaDTO, boardAttaches);
 		
 		model.addAttribute("resultMsg", "게시글 등록에 실패했습니다.");
 		model.addAttribute("url", "list");
@@ -106,5 +130,13 @@ public class QnaController {
 		}
 		
 		return "commons/result";
+	}
+	
+	@PostMapping("fileDelete")
+	@ResponseBody
+	public int getFileDelete(BoardFileDTO boardFileDTO, Model model) throws Exception {
+		int result = qnaService.deleteBoardFile(boardFileDTO);
+
+		return result;
 	}
 }

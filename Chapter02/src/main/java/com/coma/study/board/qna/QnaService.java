@@ -42,6 +42,7 @@ public class QnaService implements BoardService {
 		int result = qnaDAO.insertBoard(boardVO);
 		result = qnaDAO.updateRef(boardVO);
 		
+		if (boardAttaches == null) return result;
 		for (MultipartFile boardAttach : boardAttaches) {
 			if (boardAttach == null || boardAttach.isEmpty()) continue;
 			
@@ -57,7 +58,7 @@ public class QnaService implements BoardService {
 		return result;
 	}
 	
-	public int insertReply(QnaDTO qnaDTO) throws Exception {
+	public int insertReply(QnaDTO qnaDTO, MultipartFile[] boardAttaches) throws Exception {
 		QnaDTO parent = (QnaDTO) qnaDAO.selectBoardDetail(qnaDTO);
 		qnaDTO.setBoardRef(parent.getBoardRef());
 		qnaDTO.setBoardStep(parent.getBoardStep() + 1);
@@ -66,12 +67,40 @@ public class QnaService implements BoardService {
 		int result = qnaDAO.updateReplyStep(parent);
 		result = qnaDAO.insertBoard(qnaDTO);
 		
+		if (boardAttaches == null) return result;
+		for (MultipartFile boardAttach : boardAttaches) {
+			if (boardAttach == null || boardAttach.isEmpty()) continue;
+			
+			String fileName = fileManager.fileSave(upload + board, boardAttach);
+			
+			BoardFileDTO boardFileDTO = new BoardFileDTO();
+			boardFileDTO.setBoardNum(qnaDTO.getBoardNum());
+			boardFileDTO.setOriginName(boardAttach.getOriginalFilename());
+			boardFileDTO.setSavedName(fileName);
+			qnaDAO.insertBoardAttach(boardFileDTO);
+		}
+		
 		return result;
 	}
 
 	@Override
-	public int updateBoard(BoardVO boardVO) throws Exception {
-		return 0;
+	public int updateBoard(BoardVO boardVO, MultipartFile[] boardAttaches) throws Exception {
+		int result = qnaDAO.updateBoard(boardVO);
+		
+		if (boardAttaches == null) return result;
+		for (MultipartFile boardAttach : boardAttaches) {
+			if (boardAttach == null || boardAttach.isEmpty()) continue;
+			
+			String fileName = fileManager.fileSave(upload + board, boardAttach);
+			
+			BoardFileDTO boardFileDTO = new BoardFileDTO();
+			boardFileDTO.setBoardNum(boardVO.getBoardNum());
+			boardFileDTO.setOriginName(boardAttach.getOriginalFilename());
+			boardFileDTO.setSavedName(fileName);
+			qnaDAO.insertBoardAttach(boardFileDTO);
+		}
+
+		return result;
 	}
 
 	@Override
@@ -87,6 +116,17 @@ public class QnaService implements BoardService {
 		
 		int result = qnaDAO.deleteBoardAttach(boardNum);
 		result = qnaDAO.deleteBoard(boardNum);
+		
+		return result;
+	}
+
+	@Override
+	public int deleteBoardFile(BoardFileDTO boardFileDTO) throws Exception {
+		boardFileDTO = qnaDAO.selectBoardAttach(boardFileDTO);
+		
+		boolean success = fileManager.fileDelete(upload + board, boardFileDTO.getSavedName());
+		
+		int result = qnaDAO.deleteBoardAttachOne(boardFileDTO.getFileNum());
 		
 		return result;
 	}

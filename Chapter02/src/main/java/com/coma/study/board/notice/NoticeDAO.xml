@@ -63,6 +63,15 @@
 		</where>
 	</select>
 	
+	<select id="selectBoardAttach" parameterType="BoardFileDTO" resultType="BoardFileDTO">
+		SELECT
+				*
+		FROM notice_attach
+		<where>
+			file_num = #{fileNum}
+		</where>
+	</select>
+	
 	<insert id="insertBoard" parameterType="NoticeVO" useGeneratedKeys="true" keyProperty="boardNum">
 		INSERT INTO notice (board_title, board_content, board_writer)
 		VALUE (#{boardTitle}, #{boardContent}, #{boardWriter})
@@ -78,6 +87,7 @@
 		SET 
 				board_title = #{boardTitle}
 			, board_content = #{boardContent}
+			, board_writer = #{boardWriter}
 		<where>
 			board_num = #{boardNum}
 		</where>
@@ -94,6 +104,13 @@
 		DELETE FROM notice_attach
 		<where>
 			board_num = #{boardNum}
+		</where>
+	</delete>
+	
+	<delete id="deleteBoardAttachOne" parameterType="Long">
+		DELETE FROM notice_attach
+		<where>
+			file_num = #{fileNum}
 		</where>
 	</delete>
 </mapper>
