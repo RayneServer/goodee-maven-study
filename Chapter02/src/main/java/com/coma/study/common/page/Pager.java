@@ -25,7 +25,7 @@ public class Pager {
 	
 	public void initPage(Long totalCount) {
 		this.getPerPage();
-		this.totalPage = totalCount % perPage == 0 ? (totalCount / perPage) : (totalCount / perPage) + 1;
+		this.totalPage = totalCount % perPage == 0 ? (totalCount == 0L ? 1 : (totalCount / perPage)) : (totalCount / perPage) + 1;
 		this.getPageNum();
 		
 		Long perBlock = 5L;
