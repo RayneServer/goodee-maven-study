@@ -79,4 +79,41 @@ deleteFile.forEach((file) => {
 			});
 		});
 	})
-})
+});
+
+
+$('#boardContent').summernote({
+  placeholder: '내용을 입력하세요.',
+  tabsize: 2,
+  height: 100,
+  callbacks: {
+	  onImageUpload: function(files) {
+			const formData = new FormData();
+			formData.append("boardFile", files[0]);
+		  
+	    fetch("boardFile", {
+				method : "POST",
+				body : formData
+	    })
+			.then((data) => data.text())
+			.then((data) => {
+				$('#boardContent').summernote("editor.insertImage", data);
+			})
+			.catch((e) => console.log(e))
+			;
+	  },
+		onMediaDelete : function(files) {
+			const fileName = $(files[0]).attr("src");
+			
+			const params = new URLSearchParams();
+			params.append("fileName", fileName);
+			
+			fetch("boardFileDelete", {
+				method : "POST",
+				body : params
+			})
+			.then((data) => data.json())
+			.then((data) => console.log(data));
+		}
+	}
+});

@@ -128,4 +128,16 @@ public class NoticeController {
 		
 		return "fileDownloadView";
 	}
+	
+	@PostMapping("boardFile")
+	@ResponseBody
+	public String postBoardFile(MultipartFile boardFile) throws Exception {
+		return noticeService.saveBoardFile(boardFile);
+	}
+	
+	@PostMapping("boardFileDelete")
+	@ResponseBody
+	public boolean postBoardFileDelete(String fileName) throws Exception {
+		return noticeService.unsaveBoardFile(fileName);
+	}
 }
