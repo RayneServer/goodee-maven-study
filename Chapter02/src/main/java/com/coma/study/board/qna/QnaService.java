@@ -136,4 +136,20 @@ public class QnaService implements BoardService {
 		return qnaDAO.selectBoardAttach(boardFileDTO);
 	}
 
+	@Override
+	public String saveBoardFile(MultipartFile boardFile) throws Exception {
+		if (boardFile == null || boardFile.isEmpty()) return null;
+		
+		String fileName = fileManager.fileSave(upload + board, boardFile);
+		
+		return "/files/" + board + "/" + fileName;
+	}
+
+	@Override
+	public boolean unsaveBoardFile(String fileName) throws Exception {
+		fileName = fileName.substring(fileName.lastIndexOf("/") + 1);
+		
+		return fileManager.fileDelete(upload + board, fileName);
+	}
+
 }

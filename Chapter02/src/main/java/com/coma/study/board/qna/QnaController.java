@@ -147,4 +147,16 @@ public class QnaController {
 		
 		return "fileDownloadView";
 	}
+	
+	@PostMapping("boardFile")
+	@ResponseBody
+	public String postBoardFile(MultipartFile boardFile) throws Exception {
+		return qnaService.saveBoardFile(boardFile);
+	}
+	
+	@PostMapping("boardFileDelete")
+	@ResponseBody
+	public boolean postBoardFileDelete(String fileName) throws Exception {
+		return qnaService.unsaveBoardFile(fileName);
+	}
 }
