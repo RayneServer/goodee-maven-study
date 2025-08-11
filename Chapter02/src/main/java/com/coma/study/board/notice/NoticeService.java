@@ -106,4 +106,9 @@ public class NoticeService implements BoardService {
 		return result;
 	}
 
+	@Override
+	public BoardFileDTO selectBoardAttach(BoardFileDTO boardFileDTO) throws Exception {
+		return noticeDAO.selectBoardAttach(boardFileDTO);
+	}
+
 }

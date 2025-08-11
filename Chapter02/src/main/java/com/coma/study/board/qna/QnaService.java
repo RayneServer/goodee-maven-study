@@ -131,4 +131,9 @@ public class QnaService implements BoardService {
 		return result;
 	}
 
+	@Override
+	public BoardFileDTO selectBoardAttach(BoardFileDTO boardFileDTO) throws Exception {
+		return qnaDAO.selectBoardAttach(boardFileDTO);
+	}
+
 }

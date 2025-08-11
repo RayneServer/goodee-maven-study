@@ -134,9 +134,17 @@ public class QnaController {
 	
 	@PostMapping("fileDelete")
 	@ResponseBody
-	public int getFileDelete(BoardFileDTO boardFileDTO, Model model) throws Exception {
+	public int postFileDelete(BoardFileDTO boardFileDTO, Model model) throws Exception {
 		int result = qnaService.deleteBoardFile(boardFileDTO);
 
 		return result;
+	}
+	
+	@GetMapping("fileDownload")
+	public String getFileDownload(BoardFileDTO boardFileDTO, Model model) throws Exception {
+		boardFileDTO = qnaService.selectBoardAttach(boardFileDTO);
+		model.addAttribute("boardFile", boardFileDTO);
+		
+		return "fileDownloadView";
 	}
 }

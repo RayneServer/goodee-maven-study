@@ -10,6 +10,7 @@ public interface BoardService {
 	
 	List<BoardVO> selectBoardList(Pager pager) throws Exception;
 	BoardVO selectBoardDetail(BoardVO boardVO) throws Exception;
+	BoardFileDTO selectBoardAttach(BoardFileDTO boardFileDTO) throws Exception;
 	int insertBoard(BoardVO boardVO, MultipartFile[] multipartFile) throws Exception;
 	int updateBoard(BoardVO boardVO, MultipartFile[] multipartFile) throws Exception;
 	int deleteBoard(Long boardNum) throws Exception;

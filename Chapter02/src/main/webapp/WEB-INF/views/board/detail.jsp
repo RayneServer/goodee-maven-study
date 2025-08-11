@@ -31,6 +31,7 @@
 								<h6 class="mb-4 text-right">작성자: ${ board.boardWriter } | 조회수: ${ board.boardHit }</h6>
 								<c:forEach var="boardFile" items="${ board.boardFileDTOs }">
 									<img width="100%" alt="" src="/files/${ requestScope.boardName }/${ boardFile.savedName }">
+									<a href="./fileDownload?fileNum=${ boardFile.fileNum }">다운로드</a>
 								</c:forEach>
 								<p>${ board.boardContent }</p>
 							</div>
