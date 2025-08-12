@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace의 이름은 사용하려는 DAO의 풀패키지명과 동일하게 작성 -->
+<mapper namespace="com.coma.study.member.MemberDAO">
+	<!-- ID는 DAO의 메서드명과 동일하게 작성 -->
+	<resultMap type="MemberDTO" id="memberResultMap">
+		<id property="memberId" column="member_id" />
+		<result property="memberPw" column="member_pw" />
+		<result property="memberName" column="member_name" />
+		<result property="memberEmail" column="member_email" />
+		<result property="memberPhone" column="member_phone" />
+		<result property="memberBirth" column="member_birth" />
+		
+		<association property="memberProfileDTO" javaType="MemberProfileDTO">
+			<result property="memberId" column="member_id" />
+			<result property="originName" column="origin_name" />
+			<result property="savedName" column="saved_name" />
+		</association>
+	</resultMap>
+	
+	<insert id="insertMember" parameterType="MemberDTO">
+		INSERT INTO member
+		VALUES (#{memberId}, #{memberPw}, #{memberName}, #{memberEmail}, #{memberPhone}, #{memberBirth})
+	</insert>
+	
+	<insert id="insertMemberProfile" parameterType="MemberProfileDTO">
+		INSERT INTO member_profile
+		VALUES (#{memberId}, #{originName}, #{savedName})
+	</insert>
+
+</mapper>
