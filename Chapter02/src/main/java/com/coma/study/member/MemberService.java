@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.coma.study.common.file.FileManager;
+import com.coma.study.transaction.Transaction;
 
 @Service
 public class MemberService {
@@ -13,10 +14,14 @@ public class MemberService {
 	private MemberDAO memberDAO;
 	@Autowired
 	private FileManager fileManager;
+	@Autowired
+	private Transaction transaction;
 	@Value("${app.upload}")
 	private String upload;
 
 	public int joinMember(MemberDTO memberDTO, MultipartFile memberProfile) throws Exception {
+		transaction.closeAutoCommit();
+		
 		int result = memberDAO.insertMember(memberDTO);
 		
 		MemberProfileDTO memberProfileDTO = new MemberProfileDTO();
@@ -32,6 +37,7 @@ public class MemberService {
 		
 		memberDAO.insertMemberProfile(memberProfileDTO);
 		
+		transaction.commit();
 		return result;
 	}
 }
