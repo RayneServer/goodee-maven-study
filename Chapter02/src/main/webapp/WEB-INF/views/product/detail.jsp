@@ -32,9 +32,10 @@
 						
 						<div class="d-flex mt-3 justify-content-end align-items-center">
 							<form id="frm">
-								<input type="hidden" name="productNum" value="${ product.productNum }" />
+								<input type="hidden" id="productNum" name="productNum" value="${ product.productNum }" />
 							</form>
 							
+							<button class="btn btn-primary mr-3 action" data-kind="a">장바구니</button>
 							<button class="btn btn-success mr-3 action" data-kind="u">상품수정</button>
 							<button class="btn btn-danger action" data-kind="d">상품삭제</button>
 						</div>

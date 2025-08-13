@@ -111,7 +111,19 @@
 							  </ul>
 							</nav>
 							
-							<a href="./add" class="btn btn-primary">Add</a>
+							<c:choose>
+								<c:when test="${ requestScope.boardName eq 'notice' }">
+									<c:forEach var="role" items="${ sessionScope.loginMember.roleDTOs }">
+										<c:if test="${ role.roleName eq 'ROLE_ADMIN' }">
+											<a href="./add" class="btn btn-primary">Add</a>
+										</c:if>
+									</c:forEach>
+								</c:when>
+								
+								<c:otherwise>
+									<a href="./add" class="btn btn-primary">Add</a>
+								</c:otherwise>
+							</c:choose>
 						</div>
 					</div>
 				</div>

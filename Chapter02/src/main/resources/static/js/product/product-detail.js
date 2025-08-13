@@ -16,5 +16,34 @@ document.querySelectorAll(".action").forEach((action) => {
 			frm.submit();
 			return;
 		}
+		
+		if (kind == 'a') {
+			const productNum = document.querySelector("#productNum").getAttribute("value");
+			
+			fetch("/member/cart/add?productNum=" + productNum, {
+				method : "GET"
+			})
+			.then((data) => data.text())
+			.then((data) => {
+				if (data == "false") {
+					Swal.fire({ icon: "error", text: "장바구니에 담는 중 오류가 발생했습니다." });
+				} else {
+					Swal.fire({
+						title: "장바구니에 추가했습니다!",
+					  text: "내 장바구니로 이동하시겠습니까?",
+					  icon: "success",
+					  showCancelButton: true,
+					  confirmButtonColor: "#3085d6",
+					  confirmButtonText: "확인",
+						cancelButtonColor: "#d33",
+						cancelButtonText: "취소"
+					}).then((result) => {
+					  if (result.isConfirmed) {
+						  location.href = "/member/cart/list";
+					  }
+					});
+				}
+			});
+		}
 	});
 });

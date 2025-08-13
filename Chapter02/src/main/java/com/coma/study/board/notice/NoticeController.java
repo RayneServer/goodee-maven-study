@@ -16,7 +16,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.coma.study.board.BoardFileDTO;
 import com.coma.study.board.BoardVO;
 import com.coma.study.common.page.Pager;
+import com.coma.study.member.MemberDTO;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -61,7 +63,8 @@ public class NoticeController {
 	}
 	
 	@PostMapping("add")
-	public String noticeAdd(NoticeVO noticeVO, MultipartFile[] boardAttaches) throws Exception {
+	public String noticeAdd(NoticeVO noticeVO, MultipartFile[] boardAttaches, HttpSession session) throws Exception {
+		noticeVO.setBoardWriter(((MemberDTO) session.getAttribute("loginMember")).getMemberId());
 		int result = noticeService.insertBoard(noticeVO, boardAttaches);
 		
 		return "redirect:list";

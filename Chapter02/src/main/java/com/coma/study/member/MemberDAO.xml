@@ -41,6 +41,16 @@
 		</where>
 	</select>
 	
+	<select id="selectCartList" parameterType="MemberDTO" resultType="ProductDTO">
+		SELECT
+				*
+		FROM product P
+		INNER JOIN cart C USING(product_num)
+		<where>
+			C.member_id = #{memberId}
+		</where>
+	</select>
+	
 	<insert id="insertMember" parameterType="MemberDTO">
 		INSERT INTO member
 		VALUES (#{memberId}, #{memberPw}, #{memberName}, #{memberEmail}, #{memberPhone}, #{memberBirth}, 1, 1, 1, 1)
@@ -56,4 +66,8 @@
 		VALUES (#{memberId}, #{roleNum})
 	</insert>
 
+	<insert id="insertCart" parameterType="java.util.Map">
+		INSERT INTO cart
+		VALUES (#{memberId}, #{productNum})
+	</insert>
 </mapper>

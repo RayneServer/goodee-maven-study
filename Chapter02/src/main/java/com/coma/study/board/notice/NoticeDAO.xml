@@ -87,7 +87,6 @@
 		SET 
 				board_title = #{boardTitle}
 			, board_content = #{boardContent}
-			, board_writer = #{boardWriter}
 		<where>
 			board_num = #{boardNum}
 		</where>

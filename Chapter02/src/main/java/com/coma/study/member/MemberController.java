@@ -1,12 +1,17 @@
 package com.coma.study.member;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.coma.study.product.ProductDTO;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -75,5 +80,28 @@ public class MemberController {
 		model.addAttribute("url", url);
 		
 		return "commons/result";
+	}
+	
+	@GetMapping("detail")
+	public void getMemberDetail() throws Exception {
+		// Empty
+	}
+	
+	@GetMapping("cart/list")
+	public void getMemberCartList(HttpSession session, Model model) throws Exception {
+		MemberDTO memberDTO = (MemberDTO) session.getAttribute("loginMember");
+		List<ProductDTO> productList = memberService.getCartList(memberDTO);
+		
+		model.addAttribute("productList", productList);
+	}
+	
+	@GetMapping("cart/add")
+	@ResponseBody
+	public boolean getMemberCartAdd(Long productNum, HttpSession session) throws Exception {
+		MemberDTO memberDTO = (MemberDTO) session.getAttribute("loginMember");
+		int result = memberService.addProductInMyCart(productNum, memberDTO);
+		
+		if (result > 0) return true;
+		else return false;
 	}
 }

@@ -23,13 +23,13 @@
 						<form method="POST" enctype="multipart/form-data">
 							<input type="hidden" name="boardNum" value="${ board.boardNum }" />
 						
-							<label for="noticeWriter" class="form-label">Writer</label>
-							<input type="text" class="form-control mb-3" id="boardWriter" name="boardWriter" value="${ board.boardWriter }" />
+							<label for="boardWriter" class="form-label">Writer</label>
+							<input type="text" class="form-control mb-3" id="boardWriter" value="${ sessionScope.loginMember.memberId }" readonly />
 							
-							<label for="noticeTitle" class="form-label">Title</label>
+							<label for="boardTitle" class="form-label">Title</label>
 							<input type="text" class="form-control mb-3" id="boardTitle" name="boardTitle" value="${ board.boardTitle }" />
 							
-							<label for="noticeContent" class="form-label">Content</label>
+							<label for="boardContent" class="form-label">Content</label>
 							<textarea class="form-control mb-3" rows="9" id="boardContent" name="boardContent" style="resize: none;">${ board.boardContent }</textarea>
 							
 							<div class="d-flex align-items-center">

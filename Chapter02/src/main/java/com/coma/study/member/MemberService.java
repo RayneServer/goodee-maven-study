@@ -1,6 +1,7 @@
 package com.coma.study.member;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.coma.study.common.file.FileManager;
+import com.coma.study.product.ProductDTO;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
@@ -48,5 +50,19 @@ public class MemberService {
 
 	public MemberDTO loginMember(MemberDTO memberDTO) throws Exception {
 		return memberDAO.selectMember(memberDTO);
+	}
+
+	public int addProductInMyCart(Long productNum, MemberDTO memberDTO) throws Exception {
+		Map<String, Object> cartMap = new HashMap<>();
+		cartMap.put("productNum", productNum);
+		cartMap.put("memberId", memberDTO.getMemberId());
+		
+		int result = memberDAO.insertCart(cartMap);
+		return result;
+	}
+
+	public List<ProductDTO> getCartList(MemberDTO memberDTO) throws Exception {
+		// TODO 페이징 처리
+		return memberDAO.selectCartList(memberDTO);
 	}
 }
