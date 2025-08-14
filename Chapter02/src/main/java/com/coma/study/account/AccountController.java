@@ -47,6 +47,8 @@ public class AccountController {
 		if (result > 0) {
 			resultMsg = "상품 가입에 성공했습니다!";
 			resultIcon = "success";
+			String url = "/member/cart/list";
+			model.addAttribute("url", url);
 		}
 		
 		model.addAttribute("resultMsg", resultMsg);

@@ -1,17 +1,24 @@
 package com.coma.study.account;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.coma.study.member.MemberDAO;
 import com.coma.study.member.MemberDTO;
 
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class AccountService {
 	@Autowired
 	private AccountDAO accountDAO;
+	@Autowired // Collab
+	private MemberDAO memberDAO;
 
 	public int createAccount(Long productNum, MemberDTO memberDTO) throws Exception {
 		AccountDTO accountDTO = new AccountDTO();
@@ -39,6 +46,13 @@ public class AccountService {
 		}
 		
 		int result = accountDAO.insertAccountList(list);
+		if (result > 0) {
+			Map<String, Object> map = new HashMap<>();
+			map.put("memberId", memberDTO.getMemberId());
+			map.put("productNums", cartCheck);
+			
+			memberDAO.deleteCartList(map);
+		}
 		
 		return result;
 	}
