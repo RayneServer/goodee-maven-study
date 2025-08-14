@@ -33,7 +33,7 @@ productCheckBoxes.forEach((checkBox) => {
 
 document.querySelector("#deleteProduct").addEventListener("click", (event) => {
 	event.preventDefault();
-	
+	// TODO 체크된 상품이 0개일 때 예외 처리
 	const cartForm = document.querySelector("#cartFrm");
 	cartForm.setAttribute("method", "POST");
 	cartForm.setAttribute("action", "./delete")
@@ -42,7 +42,7 @@ document.querySelector("#deleteProduct").addEventListener("click", (event) => {
 
 document.querySelector("#buyProduct").addEventListener("click", (event) => {
 	event.preventDefault();
-	
+	// TODO 체크된 상품이 0개일 때 예외 처리
 	const cartForm = document.querySelector("#cartFrm");
 		cartForm.setAttribute("method", "POST");
 		cartForm.setAttribute("action", "/account/add");
