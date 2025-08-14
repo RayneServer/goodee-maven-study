@@ -17,6 +17,15 @@ document.querySelectorAll(".action").forEach((action) => {
 			return;
 		}
 		
+		if (kind == 'b') {
+			const productNum = document.querySelector("#productNum").getAttribute("value");
+			
+			frm.setAttribute("action", "/account/add?productNum=" + productNum);
+			frm.setAttribute("method", "GET");
+			frm.submit();
+			return;
+		}
+		
 		if (kind == 'a') {
 			const productNum = document.querySelector("#productNum").getAttribute("value");
 			
@@ -44,6 +53,8 @@ document.querySelectorAll(".action").forEach((action) => {
 					});
 				}
 			});
+			
+			return;
 		}
 	});
 });

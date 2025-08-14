@@ -1,6 +1,8 @@
 package com.coma.study.member;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -103,5 +105,31 @@ public class MemberController {
 		
 		if (result > 0) return true;
 		else return false;
+	}
+	
+	@PostMapping("cart/delete")
+	public String postMemberCartDelete(Long[] cartCheck, HttpSession session, Model model) throws Exception {
+		MemberDTO memberDTO = (MemberDTO) session.getAttribute("loginMember");
+		
+		Map<String, Object> cartMap = new HashMap<>();
+		cartMap.put("memberId", memberDTO.getMemberId());
+		cartMap.put("productNums", cartCheck);
+		
+		int result = memberService.removeProductFromMyCart(cartMap);
+		
+		String resultMsg = "장바구니에서 삭제 중 오류가 발생했습니다.";
+		String resultIcon = "warning";
+		
+		if (result > 0) {
+			resultMsg = "장바구니에서 삭제했습니다.";
+			resultIcon = "success";
+			String url = "list";
+			model.addAttribute("url", url);
+		}
+		
+		model.addAttribute("resultMsg", resultMsg);
+		model.addAttribute("resultIcon", resultIcon);
+		
+		return "commons/result";
 	}
 }

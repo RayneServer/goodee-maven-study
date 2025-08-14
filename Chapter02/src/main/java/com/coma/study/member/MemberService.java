@@ -65,4 +65,8 @@ public class MemberService {
 		// TODO 페이징 처리
 		return memberDAO.selectCartList(memberDTO);
 	}
+
+	public int removeProductFromMyCart(Map<String, Object> cartMap) throws Exception {
+		return memberDAO.deleteCartList(cartMap);
+	}
 }

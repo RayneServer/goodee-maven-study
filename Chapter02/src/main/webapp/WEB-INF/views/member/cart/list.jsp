@@ -24,19 +24,26 @@
 							<label for="chechAll" class="form-check-label">전체 선택</label>
 						</div>
 						
-						<c:forEach var="product" items="${ productList }">
-							<div class="card col-12 my-3">
-							  <div class="card-body">
-							  	<div class="d-flex justify-content-between align-items-center mb-3">
-								    <input type="checkbox" class="form-check-input m-0 cartCheck" value="${ product.productNum }">
-								    <h4 class="card-title mb-0 ml-4">${ product.productName }</h4>
-							  	</div>
-							    <h6 class="card-subtitle mb-2 text-muted">마감일: ${ product.productDateToString }</h6>
-							    <p class="card-text">${ product.productContent }</p>
-							    <a href="/product/detail?productNum=${ product.productNum }" class="card-link">상세 보기</a>
-							  </div>
-							</div>
-						</c:forEach>
+						<form id="cartFrm">
+							<c:forEach var="product" items="${ productList }">
+								<div class="card col-12 my-3">
+								  <div class="card-body">
+								  	<div class="d-flex justify-content-between align-items-center mb-3">
+									    <input type="checkbox" class="form-check-input m-0 cartCheck" name="cartCheck" value="${ product.productNum }">
+									    <h4 class="card-title mb-0 ml-4">${ product.productName }</h4>
+								  	</div>
+								    <h6 class="card-subtitle mb-2 text-muted">마감일: ${ product.productDateToString }</h6>
+								    <p class="card-text">${ product.productContent }</p>
+								    <a href="/product/detail?productNum=${ product.productNum }" class="card-link">상세 보기</a>
+								  </div>
+								</div>
+							</c:forEach>
+						</form>
+						
+						<div>
+							<button type="button" id="buyProduct" class="btn btn-success">구매</button>
+							<button type="button" id="deleteProduct" class="btn btn-danger">삭제</button>
+						</div>
 					</div>
 				</div>
 			</div>

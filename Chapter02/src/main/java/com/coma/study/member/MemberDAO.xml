@@ -70,4 +70,15 @@
 		INSERT INTO cart
 		VALUES (#{memberId}, #{productNum})
 	</insert>
+	
+	<delete id="deleteCartList" parameterType="java.util.Map">
+		DELETE FROM cart
+		<where>
+			member_id = #{memberId}
+			AND product_num IN
+			<foreach collection="productNums" item="productNum" open="(" close=")" separator=",">
+			#{productNum}
+			</foreach>
+		</where>
+	</delete>
 </mapper>

@@ -1,5 +1,5 @@
 let checkAll = document.querySelector("#checkAll");
-const productCheckBoxes = document.querySelectorAll(".cartCheck");
+let productCheckBoxes = document.querySelectorAll(".cartCheck");
 
 checkAll.addEventListener("change", () => {
 	checkAll = document.querySelector("#checkAll");
@@ -14,3 +14,38 @@ checkAll.addEventListener("change", () => {
 		});
 	}
 });
+
+productCheckBoxes.forEach((checkBox) => {
+	checkBox.addEventListener("change", () => {
+		let count = true;
+		
+		for (check of productCheckBoxes) {
+			if (!check.checked) {
+				count = false;
+				break;
+			}
+		}
+		
+		if (count) checkAll.checked = true;
+		else checkAll.checked = false;
+	})
+});
+
+document.querySelector("#deleteProduct").addEventListener("click", (event) => {
+	event.preventDefault();
+	
+	const cartForm = document.querySelector("#cartFrm");
+	cartForm.setAttribute("method", "POST");
+	cartForm.setAttribute("action", "./delete")
+	cartForm.submit();
+})
+
+document.querySelector("#buyProduct").addEventListener("click", (event) => {
+	event.preventDefault();
+	
+	const cartForm = document.querySelector("#cartFrm");
+		cartForm.setAttribute("method", "POST");
+		cartForm.setAttribute("action", "/account/add");
+		cartForm.submit();
+	
+})
