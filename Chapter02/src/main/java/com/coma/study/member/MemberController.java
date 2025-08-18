@@ -7,15 +7,21 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.coma.study.member.validation.AddGroup;
+import com.coma.study.member.validation.UpdateGroup;
 import com.coma.study.product.ProductDTO;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -26,12 +32,16 @@ public class MemberController {
 	private MemberService memberService;
 	
 	@GetMapping("join")
-	public void getMemberJoin() throws Exception {
+	public void getMemberJoin(MemberDTO memberDTO) throws Exception {
 		// No body
 	}
 	
 	@PostMapping("join")
-	public String postMemberJoin(MemberDTO memberDTO, MultipartFile memberProfile, Model model) throws Exception {
+	public String postMemberJoin(@Validated({AddGroup.class, UpdateGroup.class}) MemberDTO memberDTO, BindingResult bindingResult, MultipartFile memberProfile, Model model) throws Exception {
+		if (!memberService.checkMemberJoinError(memberDTO, bindingResult)) {
+			return "member/join";
+		}
+		
 		int result = memberService.joinMember(memberDTO, memberProfile);
 		
 		String resultMsg = "회원가입 진행 중 오류가 발생했습니다.";
@@ -87,6 +97,41 @@ public class MemberController {
 	@GetMapping("detail")
 	public void getMemberDetail() throws Exception {
 		// Empty
+	}
+	
+	@GetMapping("update")
+	public void getMemberUpdate(HttpSession session, Model model) throws Exception {
+		MemberDTO memberDTO = (MemberDTO) session.getAttribute("loginMember");
+		
+		model.addAttribute("memberDTO", memberDTO);
+	}
+	
+	@PostMapping("update")
+	public String postMemberUpdate(@Validated(UpdateGroup.class) MemberDTO memberDTO, BindingResult bindingResult, MultipartFile memberProfile, HttpSession session, Model model) throws Exception {
+		if (bindingResult.hasErrors()) {
+			return "member/update";
+		}
+		
+		int result = memberService.updateMemberDetail(memberDTO, memberProfile);
+		
+		String resultMsg = "회원정보 수정 중 오류가 발생했습니다.";
+		String resultIcon = "warning";
+		
+		if (result > 0) {
+			resultMsg = "회원정보가 수정되었습니다.";
+			resultIcon = "success";
+			String url = "detail";
+			model.addAttribute("url", url);
+			
+			memberDTO.setMemberPw(((MemberDTO) session.getAttribute("loginMember")).getMemberPw());
+			memberDTO = memberService.loginMember(memberDTO);
+			session.setAttribute("loginMember", memberDTO);
+		}
+		
+		model.addAttribute("resultMsg", resultMsg);
+		model.addAttribute("resultIcon", resultIcon);
+		
+		return "commons/result";
 	}
 	
 	@GetMapping("cart/list")

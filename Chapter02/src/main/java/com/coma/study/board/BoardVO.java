@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -13,6 +14,7 @@ import lombok.ToString;
 @ToString
 public class BoardVO {
 	private Long boardNum;
+	@NotBlank
 	private String boardTitle;
 	private String boardContent;
 	private String boardWriter;

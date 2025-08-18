@@ -6,7 +6,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>Join Member</title>
+	<title>Update Profile</title>
 	
 	<c:import url="/WEB-INF/views/include/head_css.jsp"></c:import>
 </head>
@@ -21,30 +21,17 @@
 					<div class="col-6 offset-3">
             <div class="p-5">
               <div class="text-center">
-                <h1 class="h4 text-gray-900 my-5">Create an Account!</h1>
+                <h1 class="h4 text-gray-900 my-5">회원 정보 수정</h1>
               </div>
               <form:form method="POST" modelAttribute="memberDTO" enctype="multipart/form-data">
-                <div class="form-group row">
-                  <div class="col-4">
-                  	<form:input path="memberId" cssClass="form-control" placeholder="ID" />
-                  	<form:errors path="memberId"></form:errors>
-                  </div>
-                  <div class="col-4">
-                  	<form:password path="memberPw" cssClass="form-control" placeholder="Password" />
-                  	<form:errors path="memberPw"></form:errors>
-                  </div>
-                  <div class="col-4">
-                  	<form:password path="memberPwCheck" cssClass="form-control" placeholder="Password Check" />
-                  	<form:errors path="memberPwCheck"></form:errors>
-                  </div>
-                </div>
+              	<form:hidden path="memberId"/>
                 <div class="form-group row">
                   <div class="col-6">
                   	<form:input path="memberName" cssClass="form-control" placeholder="Name" />
                   	<form:errors path="memberName"></form:errors>
                   </div>
                   <div class="col-6">
-                  	<form:input type="date" path="memberBirth" cssClass="form-control" />
+                  	<form:input type="date" path="memberBirth" cssClass="form-control" value="${ memberDTO.memberBirth }" />
                   	<form:errors path="memberBirth"></form:errors>
                   </div>
                 </div>
@@ -64,15 +51,8 @@
                 	</div>
                 	<div id="profileBlock" class="col-8"></div>
                 </div>
-                <form:button type="submit" class="btn btn-primary btn-block">Register Account</form:button>
+                <form:button type="submit" class="btn btn-primary btn-block">수정</form:button>
               </form:form>
-              <hr>
-              <div class="text-center">
-                <a class="small" href="#">Forgot Password?</a>
-              </div>
-              <div class="text-center">
-                <a class="small" href="login">Already have an account? Login!</a>
-              </div>
             </div>
         	</div>
 				</div>
@@ -84,7 +64,6 @@
 	</div>
 	
 	<c:import url="/WEB-INF/views/include/tail.jsp"></c:import>
-	<script src="/js/member/member-join.js"></script>
 </body>
 
 </html>

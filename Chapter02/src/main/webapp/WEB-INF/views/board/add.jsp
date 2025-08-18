@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html>
 
@@ -20,17 +21,24 @@
 				<div class="container-fluid">
 					<div class="col-6 offset-3">
 						<!-- action을 명시하지 않으면 요청을 이 페이지의 url로 보냄 -->
-						<form method="POST" enctype="multipart/form-data">
-							<input type="hidden" name="boardNum" value="${ board.boardNum }" />
+						<form:form method="POST" modelAttribute="boardVO" enctype="multipart/form-data">
+							<form:hidden path="boardNum" />
 						
-							<label for="boardWriter" class="form-label">Writer</label>
-							<input type="text" class="form-control mb-3" id="boardWriter" value="${ sessionScope.loginMember.memberId }" readonly />
+							<div class="mb-3">
+								<label for="boardWriter" class="form-label">Writer</label>
+								<form:input cssClass="form-control" path="boardWriter" readonly="true" />	
+							</div>
+														
+							<div class="mb-3">
+								<label for="boardTitle" class="form-label">Title</label>
+								<form:input path="boardTitle" cssClass="form-control" />
+								<form:errors path="boardTitle"></form:errors>
+							</div>
 							
-							<label for="boardTitle" class="form-label">Title</label>
-							<input type="text" class="form-control mb-3" id="boardTitle" name="boardTitle" value="${ board.boardTitle }" />
-							
-							<label for="boardContent" class="form-label">Content</label>
-							<textarea class="form-control mb-3" rows="9" id="boardContent" name="boardContent" style="resize: none;">${ board.boardContent }</textarea>
+							<div class="mb-3">
+								<label for="boardContent" class="form-label">Content</label>
+								<form:textarea cssClass="form-control" rows="9" path="boardContent" style="resize: none;"></form:textarea>
+							</div>
 							
 							<div class="d-flex align-items-center">
 								<button type="button" id="addBtn" class="btn btn-primary mr-3">Add</button>
@@ -45,9 +53,9 @@
 							</div>
 
 							<div class="mt-3">
-								<button type="submit" class="btn btn-primary">Submit</button>
+								<form:button type="submit" class="btn btn-primary">Submit</form:button>
 							</div>
-						</form>
+						</form:form>
 					</div>
 				</div>
 			</div>

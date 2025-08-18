@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.coma.study.common.file.FileManager;
@@ -68,5 +69,30 @@ public class MemberService {
 
 	public int removeProductFromMyCart(Map<String, Object> cartMap) throws Exception {
 		return memberDAO.deleteCartList(cartMap);
+	}
+	
+	public boolean checkMemberJoinError(MemberDTO memberDTO, BindingResult bindingResult) throws Exception {
+		boolean errorCheck = true;
+		errorCheck = !bindingResult.hasErrors(); // Annotation 검증
+		
+		// 사용자 정의: Password 일치 여부 검증
+		if (!memberDTO.getMemberPw().equals(memberDTO.getMemberPwCheck())) {
+			bindingResult.rejectValue("memberPwCheck", "member.password.notEqual");
+			errorCheck = false;
+		}
+		
+		MemberDTO selectDTO = memberDAO.selectMember(memberDTO);
+		if (selectDTO != null) {
+			bindingResult.rejectValue("memberId", "member.id.isExist");
+			errorCheck = false;
+		}
+		
+		return errorCheck;
+	}
+
+	public int updateMemberDetail(MemberDTO memberDTO, MultipartFile memberProfile) throws Exception {
+		int result = memberDAO.updateMember(memberDTO);
+		
+		return result;
 	}
 }

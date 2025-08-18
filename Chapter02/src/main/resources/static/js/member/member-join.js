@@ -1,4 +1,3 @@
-
 document.querySelector("#profileBtn").addEventListener("click", (event) => {
 	event.preventDefault();
 

@@ -71,6 +71,18 @@
 		VALUES (#{memberId}, #{productNum})
 	</insert>
 	
+	<update id="updateMember" parameterType="MemberDTO">
+		UPDATE member
+		SET
+				member_name = #{memberName}
+			, member_email = #{memberEmail}
+			, member_phone = #{memberPhone}
+			, member_birth = #{memberBirth}
+		<where>
+			member_id = #{memberId}
+		</where>
+	</update>
+	
 	<delete id="deleteCartList" parameterType="java.util.Map">
 		DELETE FROM cart
 		<where>

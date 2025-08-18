@@ -16,4 +16,5 @@ public interface MemberDAO {
 	int insertCart(Map<String, Object> map) throws Exception;
 	List<ProductDTO> selectCartList(MemberDTO memberDTO) throws Exception;
 	int deleteCartList(Map<String, Object> Map) throws Exception;
+	int updateMember(MemberDTO memberDTO) throws Exception;
 }

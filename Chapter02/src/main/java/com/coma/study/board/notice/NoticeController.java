@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +20,7 @@ import com.coma.study.common.page.Pager;
 import com.coma.study.member.MemberDTO;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -58,12 +60,14 @@ public class NoticeController {
 	}
 	
 	@GetMapping("add")
-	public String noticeAdd() throws Exception {
+	public String noticeAdd(@ModelAttribute("boardVO") BoardVO noticeVO) throws Exception {
 		return "board/add";
 	}
 	
 	@PostMapping("add")
-	public String noticeAdd(NoticeVO noticeVO, MultipartFile[] boardAttaches, HttpSession session) throws Exception {
+	public String noticeAdd(@Valid BoardVO noticeVO, BindingResult bindingResult, MultipartFile[] boardAttaches, HttpSession session) throws Exception {
+		if (bindingResult.hasErrors()) return "board/add";
+		
 		noticeVO.setBoardWriter(((MemberDTO) session.getAttribute("loginMember")).getMemberId());
 		int result = noticeService.insertBoard(noticeVO, boardAttaches);
 		
