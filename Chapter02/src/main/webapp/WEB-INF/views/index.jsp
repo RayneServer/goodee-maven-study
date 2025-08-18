@@ -19,6 +19,7 @@
 				<div class="container-fluid">
 					<!-- Contents Area -->
 					<h1>Index</h1>
+					<h3>Add GitHub</h3>
 				</div>
 			</div>
 			
