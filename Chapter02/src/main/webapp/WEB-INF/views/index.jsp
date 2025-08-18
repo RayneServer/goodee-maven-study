@@ -20,6 +20,8 @@
 				<div class="container-fluid">
 					<!-- Contents Area -->
 					<h1>Index</h1>
+					<h3>Add GitHub</h3>
+					
 					<h3><spring:message code="welcome.message"></spring:message></h3>
 					<h3><spring:message code="user.info" arguments="${ sessionScope.loginMember.memberId }, ${ sessionScope.loginMember.memberEmail }" argumentSeparator=","></spring:message></h3>
 				</div>
