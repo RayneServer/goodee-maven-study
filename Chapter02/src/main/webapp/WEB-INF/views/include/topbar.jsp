@@ -20,6 +20,11 @@
 			</div>
 		</div>
 	</form>
+	
+	<ul>
+		<li><a href="/?lang=ko">KO</a></li>
+		<li><a href="/?lang=en">EN</a></li>
+	</ul>
 
 	<!-- Topbar Navbar -->
 	<ul class="navbar-nav ml-auto">
