@@ -83,6 +83,15 @@
 		</where>
 	</update>
 	
+	<update id="updatePassword" parameterType="MemberDTO">
+		UPDATE member
+		SET
+				member_pw = #{memberPw}
+		<where>
+			member_id = #{memberId}
+		</where>
+	</update>
+	
 	<delete id="deleteCartList" parameterType="java.util.Map">
 		DELETE FROM cart
 		<where>

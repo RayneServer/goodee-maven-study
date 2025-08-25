@@ -6,6 +6,9 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
@@ -16,13 +19,17 @@ import com.coma.study.product.ProductDTO;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
-public class MemberService {
+public class MemberService implements UserDetailsService {
 	@Autowired
 	private MemberDAO memberDAO;
 	@Autowired
 	private FileManager fileManager;
 	@Value("${app.upload}")
 	private String upload;
+	
+	public MemberDTO selectMember(MemberDTO memberDTO) throws Exception {
+		return memberDAO.selectMember(memberDTO);
+	}
 
 	public int joinMember(MemberDTO memberDTO, MultipartFile memberProfile) throws Exception {
 		int result = memberDAO.insertMember(memberDTO);
@@ -47,10 +54,6 @@ public class MemberService {
 		result = memberDAO.insertMemberRole(memberRoleDataMap);
 		
 		return result;
-	}
-
-	public MemberDTO loginMember(MemberDTO memberDTO) throws Exception {
-		return memberDAO.selectMember(memberDTO);
 	}
 
 	public int addProductInMyCart(Long productNum, MemberDTO memberDTO) throws Exception {
@@ -95,4 +98,16 @@ public class MemberService {
 		
 		return result;
 	}
+
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		MemberDTO memberDTO = new MemberDTO();
+		memberDTO.setMemberId(username);
+		try {
+			memberDTO = memberDAO.selectMember(memberDTO);
+		} catch (Exception e) { e.printStackTrace(); }
+		
+		return memberDTO;
+	}
+
 }

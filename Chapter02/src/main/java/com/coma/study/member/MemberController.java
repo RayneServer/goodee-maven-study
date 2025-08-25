@@ -1,17 +1,21 @@
 package com.coma.study.member;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,7 +25,6 @@ import com.coma.study.member.validation.UpdateGroup;
 import com.coma.study.product.ProductDTO;
 
 import jakarta.servlet.http.HttpSession;
-import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -30,6 +33,8 @@ import lombok.extern.slf4j.Slf4j;
 public class MemberController {
 	@Autowired
 	private MemberService memberService;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	
 	@GetMapping("join")
 	public void getMemberJoin(MemberDTO memberDTO) throws Exception {
@@ -42,6 +47,7 @@ public class MemberController {
 			return "member/join";
 		}
 		
+		memberDTO.setMemberPw(passwordEncoder.encode(memberDTO.getMemberPw()));
 		int result = memberService.joinMember(memberDTO, memberProfile);
 		
 		String resultMsg = "회원가입 진행 중 오류가 발생했습니다.";
@@ -62,46 +68,14 @@ public class MemberController {
 		// No body
 	}
 	
-	@PostMapping("login")
-	public String postMemberLogin(MemberDTO memberDTO, HttpSession session, Model model) throws Exception {
-		MemberDTO result = memberService.loginMember(memberDTO);
-		
-		String resultMsg = "아이디 또는 비밀번호가 일치하지 않습니다.";
-		String url = "login";
-		
-		if (result != null) {
-			session.setAttribute("loginMember", result);
-			resultMsg = result.getMemberName() + " 님 환영합니다!";
-			url = "/";
-		}
-		
-		model.addAttribute("resultMsg", resultMsg);
-		model.addAttribute("url", url);
-		
-		return "commons/result";
-	}
-	
-	@GetMapping("logout")
-	public String getMemberLogout(HttpSession session, Model model) throws Exception {
-		session.removeAttribute("loginMember");
-		
-		String resultMsg = "로그아웃 되었습니다.";
-		String url = "/";
-		
-		model.addAttribute("resultMsg", resultMsg);
-		model.addAttribute("url", url);
-		
-		return "commons/result";
-	}
-	
 	@GetMapping("detail")
 	public void getMemberDetail() throws Exception {
 		// Empty
 	}
 	
 	@GetMapping("update")
-	public void getMemberUpdate(HttpSession session, Model model) throws Exception {
-		MemberDTO memberDTO = (MemberDTO) session.getAttribute("loginMember");
+	public void getMemberUpdate(Principal principal, HttpSession session, Model model) throws Exception {
+		MemberDTO memberDTO = (MemberDTO) ((Authentication) principal).getPrincipal();
 		
 		model.addAttribute("memberDTO", memberDTO);
 	}
@@ -123,9 +97,10 @@ public class MemberController {
 			String url = "detail";
 			model.addAttribute("url", url);
 			
-			memberDTO.setMemberPw(((MemberDTO) session.getAttribute("loginMember")).getMemberPw());
-			memberDTO = memberService.loginMember(memberDTO);
-			session.setAttribute("loginMember", memberDTO);
+			memberDTO = memberService.selectMember(memberDTO);
+			Authentication oldAuth = SecurityContextHolder.getContext().getAuthentication();
+			Authentication newAuth = new UsernamePasswordAuthenticationToken(memberDTO, oldAuth.getCredentials(), oldAuth.getAuthorities());
+			SecurityContextHolder.getContext().setAuthentication(newAuth);;
 		}
 		
 		model.addAttribute("resultMsg", resultMsg);
