@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <button id="btn">CLICK</button>
+
+  <script>
+    document.querySelector("#btn").addEventListener("click", () => {
+      fetch("http://localhost/product/list", {
+        method : "GET"
+      })
+      .then((data) => data.text())
+      .then((data) => console.log(data))
+      .catch((e) => console.log(e));
+    });
+  </script>
+</body>
+
+</html>

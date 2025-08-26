@@ -84,8 +84,17 @@ public class SecurityConfig {
 											.useSecureCookie(false)
 											;
 						})
+						
+						// 다중 세션 관리
+						.sessionManagement((session) -> {
+							session.maximumSessions(1)
+										 .maxSessionsPreventsLogin(false)// false: 이전 사용자 로그아웃 true: 로그인 차단
+										 .expiredUrl("/")
+										 ;
+						})
 						;
 		
 		return security.build();
 	}
+	
 }
