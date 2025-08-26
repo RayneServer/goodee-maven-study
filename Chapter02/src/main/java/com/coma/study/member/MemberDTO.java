@@ -1,7 +1,13 @@
 package com.coma.study.member;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.coma.study.member.validation.AddGroup;
 import com.coma.study.member.validation.UpdateGroup;
@@ -10,7 +16,6 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,10 +24,10 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class MemberDTO {
+public class MemberDTO implements UserDetails {
 	@NotBlank(groups = AddGroup.class)
 	private String memberId;
-	@Size(min = 6, max = 8, groups = AddGroup.class)
+	@Size(min = 4, max = 8, groups = AddGroup.class)
 	private String memberPw;
 	private String memberPwCheck;
 	@NotBlank(groups = {AddGroup.class, UpdateGroup.class})
@@ -44,4 +49,25 @@ public class MemberDTO {
 	
 	// Roles
 	private List<RoleDTO> roleDTOs;
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		List<GrantedAuthority> authList = new ArrayList<>();
+		
+		for (RoleDTO roleDTO : roleDTOs) {
+			authList.add(new SimpleGrantedAuthority(roleDTO.getRoleName()));
+		}
+		
+		return authList;
+	}
+
+	@Override
+	public String getPassword() {
+		return memberPw;
+	}
+
+	@Override
+	public String getUsername() {
+		return memberId;
+	}
 }

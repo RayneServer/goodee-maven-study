@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 
@@ -22,6 +23,8 @@
 	            <h1 class="h3 mb-0 text-gray-800">My Information</h1>
 	          </div>
 	          
+	          <sec:authentication property="principal" var="member"/>
+	          
 	          <div class="row">
 	          	<div class="col-12 mb-4">
 	              <div class="card shadow mb-4">
@@ -30,7 +33,7 @@
 	                </div>
 	                <div class="card-body">
 	                  <div class="text-center">
-	                    <img class="img-fluid px-3 mt-3 mb-4" src="/files/member/${ sessionScope.loginMember.memberProfileDTO.savedName }" >
+	                    <img class="img-fluid px-3 mt-3 mb-4" src="/files/member/${ member.memberProfileDTO.savedName }" >
 	                  </div>
 	                </div>
 	              </div>
@@ -44,7 +47,7 @@
 	                  <div class="row no-gutters align-items-center">
 	                    <div class="col mr-2">
 	                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">My ID</div>
-	                      <div class="h5 mb-0 font-weight-bold text-gray-800">${ sessionScope.loginMember.memberId }</div>
+	                      <div class="h5 mb-0 font-weight-bold text-gray-800">${ member.memberId }</div>
 	                    </div>
 	                    <div class="col-auto">
 	                      <i class="fas fa-user fa-2x text-gray-300"></i>
@@ -60,7 +63,7 @@
 	                  <div class="row no-gutters align-items-center">
 	                    <div class="col mr-2">
 	                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">My Phone</div>
-	                      <div class="h5 mb-0 font-weight-bold text-gray-800">${ sessionScope.loginMember.memberPhone }</div>
+	                      <div class="h5 mb-0 font-weight-bold text-gray-800">${ member.memberPhone }</div>
 	                    </div>
 	                    <div class="col-auto">
 	                      <i class="fas fa-phone fa-2x text-gray-300"></i>
@@ -78,7 +81,7 @@
 	                  <div class="row no-gutters align-items-center">
 	                    <div class="col mr-2">
 	                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">My E-mail</div>
-	                      <div class="h5 mb-0 font-weight-bold text-gray-800">${ sessionScope.loginMember.memberEmail }</div>
+	                      <div class="h5 mb-0 font-weight-bold text-gray-800">${ member.memberEmail }</div>
 	                    </div>
 	                    <div class="col-auto">
 	                      <i class="fas fa-envelope fa-2x text-gray-300"></i>
@@ -94,7 +97,7 @@
 	                  <div class="row no-gutters align-items-center">
 	                    <div class="col mr-2">
 	                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">My Birth</div>
-	                      <div class="h5 mb-0 font-weight-bold text-gray-800">${ sessionScope.loginMember.memberBirth }</div>
+	                      <div class="h5 mb-0 font-weight-bold text-gray-800">${ member.memberBirth }</div>
 	                    </div>
 	                    <div class="col-auto">
 	                      <i class="fas fa-calendar fa-2x text-gray-300"></i>
