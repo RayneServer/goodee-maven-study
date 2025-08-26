@@ -64,8 +64,12 @@ public class MemberController {
 	}
 	
 	@GetMapping("login")
-	public void getMemberLogin() throws Exception {
-		// No body
+	public String getMemberLogin(Principal principal) throws Exception {
+		if (principal != null) {
+			return "redirect:/";
+		}
+		
+		return "member/login";
 	}
 	
 	@GetMapping("detail")

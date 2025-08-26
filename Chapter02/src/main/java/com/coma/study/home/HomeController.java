@@ -21,12 +21,12 @@ public class HomeController {
 	
 	@GetMapping("/")
 	public String home(HttpSession session) {
-		Enumeration<String> keys = session.getAttributeNames();
-		
-		while (keys.hasMoreElements()) {
-			log.info("key: {}", keys.nextElement());
-		}
-		
+//		Enumeration<String> keys = session.getAttributeNames();
+//		
+//		while (keys.hasMoreElements()) {
+//			log.info("key: {}", keys.nextElement());
+//		}
+//
 //		Object obj = session.getAttribute("SPRING_SECURITY_CONTEXT");
 //		log.info("{}", obj.getClass().getName());
 //		
@@ -46,6 +46,6 @@ public class HomeController {
 	@GetMapping("/info")
 	public void info(Principal principal) {
 		MemberDTO memberDTO = (MemberDTO) ((Authentication) principal).getPrincipal();
-		log.info("{}", memberDTO.getMemberName());
+		// log.info("{}", memberDTO.getMemberName());
 	}
 }

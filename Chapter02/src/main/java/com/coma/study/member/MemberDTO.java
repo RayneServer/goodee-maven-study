@@ -70,4 +70,5 @@ public class MemberDTO implements UserDetails {
 	public String getUsername() {
 		return memberId;
 	}
+	
 }

@@ -24,11 +24,19 @@
               </div>
               <form method="POST">
                 <div class="form-group">
-                  <input type="text" class="form-control form-control-user" id="memberId" name="memberId" placeholder="ID">
+                  <input type="text" class="form-control form-control-user" id="memberId" name="memberId" placeholder="ID" value="${ cookie.rememberId.value }">
                 </div>
                 <div class="form-group">
                   <input type="password" class="form-control form-control-user" id="memberPw" name="memberPw" placeholder="Password">
                 </div>  
+                
+                <div>
+	                <input type="checkbox" class="form-check-input ml-2" id="rememberId" name="rememberId" value="1" <c:if test="${ not empty cookie.rememberId.value }">checked</c:if> />
+	                <label for="rememberId" class="form-label ml-4">아이디 기억</label>
+	                
+	                <input type="checkbox" class="form-check-input ml-2" id="rememberMe" name="rememberMe" value="1" />
+	                <label for="rememberMe" class="form-label ml-4">자동 로그인</label>
+                </div>
                 <button type="submit" class="btn btn-primary btn-user btn-block">Login</button>
               </form>
               <hr>
@@ -49,6 +57,12 @@
 	</div>
 	
 	<c:import url="/WEB-INF/views/include/tail.jsp"></c:import>
+	<script>
+		const failMsg = "${ param.failMsg }";
+		if (failMsg != null && failMsg != "") {
+			Swal.fire({ icon: "error", text: failMsg });
+		}
+	</script>
 </body>
 
 </html>
