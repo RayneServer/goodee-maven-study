@@ -39,6 +39,7 @@
                 </div>
                 <button type="submit" class="btn btn-primary btn-user btn-block">Login</button>
               </form>
+              <a href="/oauth2/authorization/kakao" class="btn btn-primary btn-user btn-block mt-2">카카오 로그인</a>
               <hr>
               <div class="text-center">
                 <a class="small" href="#">Forgot Password?</a>

@@ -4,10 +4,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import com.coma.study.member.validation.AddGroup;
 import com.coma.study.member.validation.UpdateGroup;
@@ -24,7 +26,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class MemberDTO implements UserDetails {
+public class MemberDTO implements UserDetails, OAuth2User {
 	@NotBlank(groups = AddGroup.class)
 	private String memberId;
 	@Size(min = 6, max = 8, groups = AddGroup.class)
@@ -49,6 +51,11 @@ public class MemberDTO implements UserDetails {
 	
 	// Roles
 	private List<RoleDTO> roleDTOs;
+	
+	private Map<String, Object> attributes;
+	
+	private String accessToken;
+	private String sns;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -69,6 +76,11 @@ public class MemberDTO implements UserDetails {
 	@Override
 	public String getUsername() {
 		return memberId;
+	}
+
+	@Override
+	public String getName() {
+		return memberName;
 	}
 	
 }

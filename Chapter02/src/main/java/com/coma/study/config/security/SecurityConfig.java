@@ -92,6 +92,15 @@ public class SecurityConfig {
 										 .expiredUrl("/")
 										 ;
 						})
+						
+						// OAuth2 로그인 관리
+						.oauth2Login((login) -> {
+							login.userInfoEndpoint((point) -> {
+								point.userService(memberService)
+										 ;
+							});
+						})
+						
 						;
 		
 		return security.build();

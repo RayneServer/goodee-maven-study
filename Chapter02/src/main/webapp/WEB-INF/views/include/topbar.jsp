@@ -34,8 +34,7 @@
 			<!-- Nav Item - User Information -->
 			<li class="nav-item dropdown no-arrow">
 				<a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					<span class="mr-3 d-none d-inline text-gray-600 text-right">${ member.memberName } 님</span>
-					<img class="img-profile rounded-circle" style="width: 50px; height: 50px;" src="/files/member/${ member.memberProfileDTO.savedName }">
+					<span class="mr-3 d-none d-inline text-gray-600 text-right"> 로그인 중 </span>
 				</a>
 				<!-- Dropdown - User Information -->
 				<div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">

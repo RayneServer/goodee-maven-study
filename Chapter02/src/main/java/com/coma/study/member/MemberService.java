@@ -1,5 +1,6 @@
 package com.coma.study.member;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
+import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
@@ -17,9 +22,12 @@ import org.springframework.web.multipart.MultipartFile;
 import com.coma.study.common.file.FileManager;
 import com.coma.study.product.ProductDTO;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
 @Transactional(rollbackFor = Exception.class)
-public class MemberService implements UserDetailsService {
+@Slf4j
+public class MemberService extends DefaultOAuth2UserService implements UserDetailsService {
 	@Autowired
 	private MemberDAO memberDAO;
 	@Autowired
@@ -106,6 +114,44 @@ public class MemberService implements UserDetailsService {
 		try {
 			memberDTO = memberDAO.selectMember(memberDTO);
 		} catch (Exception e) { e.printStackTrace(); }
+		
+		return memberDTO;
+	}
+
+	@Override
+	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
+		String sns = userRequest.getClientRegistration().getRegistrationId();
+		OAuth2User user = null;
+		
+		if (sns.toUpperCase().equals("KAKAO")) {
+			user = OAuthByKakao(userRequest);
+		}
+		
+		return user;
+	}
+	
+	private OAuth2User OAuthByKakao(OAuth2UserRequest userRequest) {
+		OAuth2User user = super.loadUser(userRequest);
+		
+		Map<String, Object> properties = (Map<String, Object>) user.getAttributes().get("properties");
+		
+		MemberDTO memberDTO = new MemberDTO();
+		memberDTO.setMemberId(properties.get("nickname").toString());
+		
+		MemberProfileDTO memberProfileDTO = new MemberProfileDTO();
+		memberProfileDTO.setSavedName(properties.get("profile_image").toString());
+		memberDTO.setMemberProfileDTO(memberProfileDTO);
+		
+		List<RoleDTO> roleDTOs = new ArrayList<>();
+		RoleDTO roleDTO = new RoleDTO();
+		roleDTO.setRoleName("ROLE_MEMBER");
+		roleDTOs.add(roleDTO);
+		memberDTO.setRoleDTOs(roleDTOs);
+		
+		memberDTO.setAttributes(user.getAttributes());
+		
+		memberDTO.setSns(userRequest.getClientRegistration().getRegistrationId());
+		memberDTO.setAccessToken(userRequest.getAccessToken().getTokenValue());
 		
 		return memberDTO;
 	}

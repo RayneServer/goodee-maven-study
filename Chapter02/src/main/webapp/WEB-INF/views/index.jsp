@@ -22,14 +22,7 @@
 					<!-- Contents Area -->
 					<h1>Index</h1>
 					<sec:authorize access="isAuthenticated()">
-						<h3>Add GitHub</h3>
 						
-						<sec:authentication property='principal.memberId' var="memberId" />
-						<sec:authentication property='principal.memberEmail' var="memberEmail" />
-						
-						<h3><spring:message code="welcome.message"></spring:message></h3>
-						<h3><spring:message code="user.info" arguments="${ memberId }, ${ memberEmail }" argumentSeparator=","></spring:message></h3>
-						<h3>Add GitHub2</h3>
 					</sec:authorize>
 				</div>
 			</div>
