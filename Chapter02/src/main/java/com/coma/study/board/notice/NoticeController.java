@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,6 +44,8 @@ public class NoticeController {
 	@GetMapping("list")
 	public String noticeList(Pager pager, Model model) throws Exception {
 		// model: request와 비슷한 생명주기를 가진 객체 => 스프링에서 데이터 전송 시 사용
+		if (pager != null) throw new NullPointerException();
+		
 		List<BoardVO> noticeList = noticeService.selectBoardList(pager);
 		
 		model.addAttribute("boardList", noticeList);
@@ -149,4 +152,10 @@ public class NoticeController {
 	public boolean postBoardFileDelete(String fileName) throws Exception {
 		return noticeService.unsaveBoardFile(fileName);
 	}
+	
+	// @ExceptionHandler(exception = NullPointerException.class)
+	// public String error() {
+	// 	return "errors/error";
+	// }
+	
 }
