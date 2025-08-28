@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -155,6 +156,23 @@ public class MemberController {
 		model.addAttribute("resultIcon", resultIcon);
 		
 		return "commons/result";
+	}
+	
+	@GetMapping("delete")
+	public String getMemberDelete(@AuthenticationPrincipal MemberDTO memberDTO, HttpSession session) throws Exception {
+		log.info("{}", memberDTO);
+		boolean result = false;
+		
+		if (memberDTO.getSns() == null) {
+			// 서비스에서 회원 탈퇴 처리
+		} else if (memberDTO.getSns().toUpperCase().equals("KAKAO")) {
+			result = memberService.signOutFromKakao(memberDTO);
+			session.removeAttribute("SPRING_SECURITY_CONTEXT");
+			session.invalidate();
+			SecurityContextHolder.clearContext();
+		}
+		
+		return "redirect:/";
 	}
 	
 }

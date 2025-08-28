@@ -18,11 +18,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import com.coma.study.common.file.FileManager;
 import com.coma.study.product.ProductDTO;
 
 import lombok.extern.slf4j.Slf4j;
+import reactor.core.publisher.Mono;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
@@ -132,11 +134,13 @@ public class MemberService extends DefaultOAuth2UserService implements UserDetai
 	
 	private OAuth2User OAuthByKakao(OAuth2UserRequest userRequest) {
 		OAuth2User user = super.loadUser(userRequest);
+		log.info("{}", user);
 		
 		Map<String, Object> properties = (Map<String, Object>) user.getAttributes().get("properties");
 		
 		MemberDTO memberDTO = new MemberDTO();
-		memberDTO.setMemberId(properties.get("nickname").toString());
+		memberDTO.setMemberId(user.getName());
+		memberDTO.setMemberName(properties.get("nickname").toString());
 		
 		MemberProfileDTO memberProfileDTO = new MemberProfileDTO();
 		memberProfileDTO.setSavedName(properties.get("profile_image").toString());
@@ -154,6 +158,21 @@ public class MemberService extends DefaultOAuth2UserService implements UserDetai
 		memberDTO.setAccessToken(userRequest.getAccessToken().getTokenValue());
 		
 		return memberDTO;
+	}
+
+	public boolean signOutFromKakao(MemberDTO memberDTO) {
+		WebClient webClient = WebClient.create("https://kapi.kakao.com/v1/user/unlink");
+		
+		Mono<String> response = 
+				webClient.post()
+				.header("Authorization", "Bearer " + memberDTO.getAccessToken())
+				.retrieve()
+				.bodyToMono(String.class)
+				;
+		
+		log.info("{}", response.block());
+		if (response.block() == null) return false;
+		else return true;
 	}
 
 }

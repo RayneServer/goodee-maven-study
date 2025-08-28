@@ -80,7 +80,7 @@ public class MemberDTO implements UserDetails, OAuth2User {
 
 	@Override
 	public String getName() {
-		return memberName;
+		return memberId;
 	}
 	
 }

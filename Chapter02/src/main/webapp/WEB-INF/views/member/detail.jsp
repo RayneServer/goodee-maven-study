@@ -106,6 +106,8 @@
 	                </div>
 	              </div>
 	            </div>
+	            
+	            <a href="delete" class="btn btn-danger">회원탈퇴</a>
 	          </div>
 					</div>
     
