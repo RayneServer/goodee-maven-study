@@ -1,9 +1,10 @@
 package com.coma.study.board.notice;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,8 +25,8 @@ public class NoticeController {
 	private NoticeService noticeService;
 
 	@GetMapping
-	public List<NoticeDTO> getNotice() throws Exception {
-		List<NoticeDTO> noticeList = noticeService.getNoticeList();
+	public Page<NoticeDTO> getNotice(@PageableDefault(size = 10, sort = "boardNum", direction = Sort.Direction.DESC) Pageable pageable) throws Exception {
+		Page<NoticeDTO> noticeList = noticeService.getNoticeList(pageable);
 		
 		return noticeList;
 	}

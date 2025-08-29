@@ -1,9 +1,10 @@
 package com.coma.study.board.notice;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -11,8 +12,8 @@ public class NoticeService {
 	@Autowired
 	private NoticeRepository noticeRepository;
 	
-	public List<NoticeDTO> getNoticeList() throws Exception {
-		List<NoticeDTO> noticeList = noticeRepository.findAll();
+	public Page<NoticeDTO> getNoticeList(Pageable pageable) throws Exception {
+		Page<NoticeDTO> noticeList = noticeRepository.findAll(pageable);
 		
 		return noticeList;
 	}
