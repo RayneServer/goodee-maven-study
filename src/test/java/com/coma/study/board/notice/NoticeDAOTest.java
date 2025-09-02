@@ -9,9 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.coma.study.board.BoardVO;
-import com.coma.study.common.page.Pager;
-
+import dev.coma.study.board.BoardVO;
+import dev.coma.study.board.notice.NoticeDAO;
+import dev.coma.study.board.notice.NoticeVO;
+import dev.coma.study.common.page.Pager;
 import lombok.extern.slf4j.Slf4j;
 
 @SpringBootTest
