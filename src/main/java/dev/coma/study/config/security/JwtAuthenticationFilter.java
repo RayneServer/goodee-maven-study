@@ -41,6 +41,11 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 				SecurityContextHolder.getContext().setAuthentication(authentication);
 			} catch (Exception e) {
 				e.printStackTrace();
+				
+				// SecurityException || MalformedException || SignatureException => 유효하지 않은 JWT 서명
+				// ExpiredJwtException => 기간 만료 Token
+				// UnsupportedJwtException => 지원되지 않는 Token
+				// IllegalArgumentException => 잘못된 Token
 			}			
 		}
 		
