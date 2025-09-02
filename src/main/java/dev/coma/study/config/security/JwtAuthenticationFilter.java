@@ -34,12 +34,11 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 				break;
 			}
 		}
-		System.out.println("Token: " + token);
+		
 		if (token != null && token.length() != 0) {
 			try {
 				Authentication authentication = jwtTokenManager.getAuthenticationByToken(token);
 				SecurityContextHolder.getContext().setAuthentication(authentication);
-				System.out.println(authentication.getName());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}			
