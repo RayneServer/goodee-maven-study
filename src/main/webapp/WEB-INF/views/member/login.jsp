@@ -22,7 +22,7 @@
               <div class="text-center">
                 <h1 class="h4 text-gray-900 mt-5 mb-4">Welcome Back!</h1>
               </div>
-              <form method="POST">
+              <form method="POST" action="loginProcess">
                 <div class="form-group">
                   <input type="text" class="form-control form-control-user" id="memberId" name="memberId" placeholder="ID" value="${ cookie.rememberId.value }">
                 </div>

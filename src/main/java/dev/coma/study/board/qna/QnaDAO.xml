@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.coma.study.board.qna.QnaDAO">
+<mapper namespace="dev.coma.study.board.qna.QnaDAO">
 	<resultMap type="QnaDTO" id="qnaResultMap">
 		<id property="boardNum" column="board_num" />
 		<result property="boardTitle" column="board_title" />

@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- namespace의 이름은 사용하려는 DAO의 풀패키지명과 동일하게 작성 -->
-<mapper namespace="com.coma.study.board.notice.NoticeDAO">
+<mapper namespace="dev.coma.study.board.notice.NoticeDAO">
 	<!-- ID는 DAO의 메서드명과 동일하게 작성 -->
 	<resultMap type="NoticeVO" id="noticeResultMap">
 		<id property="boardNum" column="board_num" />

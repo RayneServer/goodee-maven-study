@@ -3,9 +3,11 @@ package dev.coma.study.config.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 
 import dev.coma.study.member.MemberService;
@@ -23,6 +25,10 @@ public class SecurityConfig {
 	private AddLogoutSuccessHandler addLogoutSuccessHandler;
 	@Autowired
 	private MemberService memberService;
+	@Autowired
+	private JwtTokenManager jwtTokenManager;
+	@Autowired
+	private AuthenticationConfiguration authenticationConfiguration;
 
 	// js, img, css 등 static resource를 security에서 제외
 	@Bean
@@ -50,28 +56,25 @@ public class SecurityConfig {
 						})
 						
 						// 사용자 정의 로그인 설정 (개발자가 아니라 Spring Security Filter에서 로그인을 검증) => 하지만 기본 설정은 다 해줘야 함
+						// Token 인증 방식에서는 사용하지 않음
 						.formLogin(form -> {
-							form.loginPage("/member/login")
-									.usernameParameter("memberId") // ID가 username이 아닌 경우
-									.passwordParameter("memberPw") // PW가 password가 아닌 경우
-									// .defaultSuccessUrl("/") // 성공 시 이동할 url의 기본값
-									// .successForwardUrl(null) // Forward로 진행
-									.successHandler(loginSuccessHandler) // 직접 핸들러를 만들 경우
-									// .failureUrl("/member/login")
-									.failureHandler(loginFailureHandler)
+							form.disable()
 									;
 						})
 						
 						// 로그아웃 설정 (개발자가 아니라 Spring Security Filter에서 로그아웃 처리)
-						.logout(logout -> {
-							logout.logoutUrl("/member/logout")
-										.addLogoutHandler(addLogoutHandler)
-										.logoutSuccessHandler(addLogoutSuccessHandler)
-										// .logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"));
-										.invalidateHttpSession(true) // 세션을 만료시킴
-										.deleteCookies("JSESSIONID")
-										// .logoutSuccessUrl("/")
-										;
+						.logout((out) -> {
+							out.logoutUrl("/member/logout")
+								 .invalidateHttpSession(true)
+								 .deleteCookies("accessToken")
+								 .logoutSuccessUrl("/")
+								 ;
+						})
+						
+						// Token 인증 방식
+						.httpBasic((basic) -> {
+							basic.disable()
+									 ;
 						})
 						
 						// 자동 로그인 설정
@@ -86,12 +89,15 @@ public class SecurityConfig {
 						})
 						
 						// 다중 세션 관리
+						// Token 인증 방식이기 때문에 session을 사용하지 않음
 						.sessionManagement((session) -> {
-							session.maximumSessions(1)
-										 .maxSessionsPreventsLogin(false)// false: 이전 사용자 로그아웃 true: 로그인 차단
-										 .expiredUrl("/")
+							session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 										 ;
 						})
+						
+						// 토큰 생성 방식으로 로그인
+						.addFilter(new JwtAuthenticationFilter(authenticationConfiguration.getAuthenticationManager(), jwtTokenManager))
+						.addFilter(new JwtLoginFilter(authenticationConfiguration.getAuthenticationManager(), jwtTokenManager))
 						
 						// OAuth2 로그인 관리
 						.oauth2Login((login) -> {

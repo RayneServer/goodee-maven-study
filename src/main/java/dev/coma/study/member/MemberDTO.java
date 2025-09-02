@@ -28,7 +28,7 @@ import lombok.ToString;
 public class MemberDTO implements UserDetails, OAuth2User {
 	@NotBlank(groups = AddGroup.class)
 	private String memberId;
-	@Size(min = 6, max = 8, groups = AddGroup.class)
+	@Size(min = 4, max = 8, groups = AddGroup.class)
 	private String memberPw;
 	private String memberPwCheck;
 	@NotBlank(groups = {AddGroup.class, UpdateGroup.class})
