@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -28,10 +29,13 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 		// 토큰 검증
 		Cookie[] cookies = request.getCookies();
 		String token = "";
-		for (Cookie cookie : cookies) {
-			if (cookie.getName().equals("accessToken")) {
-				token = cookie.getValue();
-				break;
+		
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
+				if (cookie.getName().equals("accessToken")) {
+					token = cookie.getValue();
+					break;
+				}
 			}
 		}
 		
@@ -40,12 +44,35 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 				Authentication authentication = jwtTokenManager.getAuthenticationByToken(token);
 				SecurityContextHolder.getContext().setAuthentication(authentication);
 			} catch (Exception e) {
-				e.printStackTrace();
 				
 				// SecurityException || MalformedException || SignatureException => 유효하지 않은 JWT 서명
 				// ExpiredJwtException => 기간 만료 Token
 				// UnsupportedJwtException => 지원되지 않는 Token
 				// IllegalArgumentException => 잘못된 Token
+				
+				if (e instanceof ExpiredJwtException) {
+					for (Cookie cookie : cookies) {
+						if (cookie.getName().equals("refreshToken")) {
+							String refreshToken = cookie.getValue();
+							
+							try {
+								Authentication authentication = jwtTokenManager.getAuthenticationByToken(refreshToken);
+								SecurityContextHolder.getContext().setAuthentication(authentication);
+								
+								String newAccessToken = jwtTokenManager.makeAccessToken(authentication);
+								Cookie newCookie = new Cookie("accessToken", newAccessToken);
+								newCookie.setPath("/");
+								newCookie.setMaxAge(180);
+								newCookie.setHttpOnly(true);
+								response.addCookie(newCookie);
+							} catch (Exception e1) {
+								e1.printStackTrace();
+							}
+						}
+					}
+				} else {					
+					e.printStackTrace();
+				}
 			}			
 		}
 		
